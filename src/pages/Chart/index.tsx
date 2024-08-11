@@ -49,8 +49,6 @@ import { ColorPicker, useColor } from "react-color-palette";
 import "react-color-palette/css";
 import { fetchCompanyName } from '../../api/fetchCompanyName'
 import Modal from 'react-modal';
-// import DatePicker from 'react-datepicker';
-// import 'react-datepicker/dist/react-datepicker.css';
 import CloseIcon from '@mui/icons-material/Close';
 import { DatePicker } from "@nextui-org/date-picker";
 

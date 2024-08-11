@@ -7,6 +7,7 @@ import {
   TextAlignment,
   BoxHorizontalAlignment,
   BoxVerticalAlignment,
+  PriceScaleMode,
 } from '../lightweights-line-tools'
 
 import {
@@ -471,93 +472,133 @@ export const ChartComponent = (props: any) => {
     }
     
    },[selectedLine])
-
+ 
   useEffect(() => {
-    chart.current = createChart(chartContainerRef.current, {
-      crosshair: {
-        horzLine: {
-          visible: false,
-        },
-        vertLine: {
-          visible: false,
-        },
-      },
-      layout: {
-        background: { type: ColorType.Solid, color: backgroundColor },
-        textColor,
-      },
-      leftPriceScale: {
-        visible: true,
-        autoScale: true,
-        minimize: false,
-        borderVisible: false,
-        scaleMargins: {
-          top: 0.1,
-          bottom: 0,
-        },
-      },
-      width: templeWidth -17,
-      height: templeHeight,
-    })
-
-    // candleStickSeries.current = chart.current.addCandlestickSeries({
-    //   upColor: '#000000',
-    //   downColor: '#000000',
-    // })
-
     if(!isAddStock) {
+      chart.current = createChart(chartContainerRef.current, {
+        crosshair: {
+          horzLine: {
+            visible: false,
+          },
+          vertLine: {
+            visible: false,
+          },
+        },
+        layout: {
+          background: { type: ColorType.Solid, color: backgroundColor },
+          textColor,
+        },
+        leftPriceScale: {
+          visible: true,
+          autoScale: true,
+          minimize: false,
+          borderVisible: false,
+          scaleMargins: {
+            top: 0.1,
+            bottom: 0,
+          },
+        },
+        rightPriceScale: {
+          visible: true,
+          autoScale: true,
+          minimize: false,
+          borderVisible: false,
+          scaleMargins: {
+            top: 0.1,
+            bottom: 0,
+          },
+        },
+        width: templeWidth -17,
+        height: templeHeight,
+      })
+
       candleStickSeries.current = chart.current.addBarSeries({
         upColor: '#000000',
         downColor: '#000000',
       })
       
       candleStickSeries.current.setData(data)
+
+      const volumeSeries = chart.current.addHistogramSeries({
+        color: '#7685AA',
+        priceFormat: {
+          type: 'volume',
+        },
+        priceScaleId: 'left',
+        scaleMargins: {
+          top: 0.7,
+          bottom: 0,
+        },
+      })
+  
+      volumeSeries.priceScale().applyOptions({
+        scaleMargins: {
+          top: 0.75,
+          bottom: 0,
+        },
+      })
+  
+      volumeSeries.setData(volume)
     }
     
     if(isAddStock) {
+      chart.current = createChart(chartContainerRef.current, {
+        crosshair: {
+          horzLine: {
+            visible: false,
+          },
+          vertLine: {
+            visible: false,
+          },
+        },
+        layout: {
+          background: { type: ColorType.Solid, color: backgroundColor },
+          textColor,
+        },
+        leftPriceScale: {
+          visible: true,
+          autoScale: true,
+          minimize: false,
+          borderVisible: false,
+          mode: PriceScaleMode.Percentage,
+          scaleMargins: {
+            top: 0.1,
+            bottom: 0,
+          },
+        },
+        rightPriceScale: {
+          visible: true,
+          autoScale: true,
+          minimize: false,
+          borderVisible: false,
+          mode: PriceScaleMode.Percentage,
+          scaleMargins: {
+            top: 0.1,
+            bottom: 0,
+          },
+        },
+        width: templeWidth -17,
+        height: templeHeight,
+      })
+      
       if(addData !== null) {
           const convertData = Object.keys(data).map(date => ({
             time: data[date]["time"],
-            value: parseFloat(data[date]["open"]) // Converting string to float
+            value: parseFloat(data[date]["open"])
           }));
-      
-          candleStickSeries.current = chart.current.addAreaSeries({ lineColor, topColor: '#ffffff00', bottomColor: '#ffffff00' });
-          candleStickSeries.current.setData(convertData);
 
           const addConvertData = Object.keys(addData).map(date => ({
             time: addData[date]["time"],
-            value: parseFloat(addData[date]["open"]) // Converting string to float
+            value: parseFloat(addData[date]["open"])
           }));
+         
+          candleStickSeries.current = chart.current.addAreaSeries({ lineColor: 'blue', topColor: '#ffffff00', bottomColor: '#ffffff00', lineWidth: 2,  });
+          candleStickSeries.current.setData(convertData);
 
-          addCandleStickSeries.current = chart.current.addAreaSeries({ lineColor: 'red', topColor: '#ffffff00', bottomColor: '#ffffff00' });
-    
+          addCandleStickSeries.current = chart.current.addAreaSeries({ lineColor: 'red', topColor: '#ffffff00', bottomColor: '#ffffff00', lineWidth: 2,   });
           addCandleStickSeries.current.setData(addConvertData);
       }
     }
-
-   if(!isAddStock) {
-     const volumeSeries = chart.current.addHistogramSeries({
-       color: '#7685AA',
-       priceFormat: {
-         type: 'volume',
-       },
-       priceScaleId: 'left',
-       scaleMargins: {
-         top: 0.7,
-         bottom: 0,
-       },
-     })
- 
-     volumeSeries.priceScale().applyOptions({
-       scaleMargins: {
-         top: 0.75,
-         bottom: 0,
-       },
-     })
- 
-     volumeSeries.setData(volume)
-
-   }
 
     chart.current.timeScale().setVisibleLogicalRange({
       from: data.length - 50,
