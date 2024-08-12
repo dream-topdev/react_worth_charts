@@ -1300,7 +1300,7 @@ const Chart: FC = () => {
           {/* ---main chartView */}
           {/* Watchlist------ */}
           {/* {isStockBtn && ( */}
-            <div className='bg-white border-l-[2px] border-l-grey z-50 ' ref={stockRef}>
+            <div className='bg-white border-l-[2px] border-l-grey' ref={stockRef}>
               <WatchList 
                 addStockfromheader={addStock}
                 addStockChartHandler={ addStockChartHandler}
