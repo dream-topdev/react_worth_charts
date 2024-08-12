@@ -184,7 +184,7 @@ export const WatchList = (props : any) => {
 
   if (width > 1400) {
     return (
-      <div className='w-[430px]'>
+      <div className='w-[350px]'>
         <div className="flex flex-row">
           <div className="w-1/4 flex flex-row text-xl text-[#6A6D78]">
             <img src={ThumbSvg} className='h-[20px] w-[17px]' alt='image'/>
