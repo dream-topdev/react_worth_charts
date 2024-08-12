@@ -14,7 +14,7 @@ export const TextDefaults: TextOptions = {
 	forceTextAlign: false,
 	forceCalculateMaxLineWidth: false,
 	alignment: TextAlignment.Left,
-	font: { family: defaultFontFamily, color: '#2962ff', size: 12, bold: false, italic: false },
+	font: { family: 'Arial', color: '#2962ff', size: 12, bold: false, italic: false },
 	box: { scale: 1, angle: 0, alignment: { vertical: BoxVerticalAlignment.Top, horizontal: BoxHorizontalAlignment.Left } },
 };
 

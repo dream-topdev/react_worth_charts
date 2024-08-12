@@ -2,13 +2,6 @@ import { FC, useState, useEffect, useRef } from 'react'
 import Draggable from 'react-draggable'
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
-import {
-  StockPriceData,
-  VolumeData,
-  Point,
-  PointXY,
-  HoverInfo,
-} from '../../utils/typing'
 import { fetchStockData } from '../../api/fetchStockData'
 import { fetchCompanyData } from '../../api/fetchCompanyData'
 import { fetchMarketPrices } from '../../api/fetchMarketPrices'
@@ -18,6 +11,20 @@ import { WatchList } from './watchList'
 import RemoveSvg from '../../assets/icons/Remove.png'
 import allRemoveSvg from '../../assets/icons/allRemoveSvg.png'
 import toolSvg from '../../assets/icons/tools.svg'
+import { ChartComponent } from '../../components/chartview'
+import Spinner from './spinner';
+import { ColorPicker, useColor } from "react-color-palette";
+import "react-color-palette/css";
+import { fetchCompanyName } from '../../api/fetchCompanyName'
+import CloseIcon from '@mui/icons-material/Close';
+import { DatePicker } from "@nextui-org/date-picker";
+import {
+  StockPriceData,
+  VolumeData,
+  Point,
+  PointXY,
+  HoverInfo,
+} from '../../utils/typing'
 import {
   ArrowSvg,
   ArrowSelectedSvg,
@@ -43,16 +50,6 @@ import {
   CircleSelectedSvg,
   SettingsSvg,
 } from '../../assets/icons'
-import { ChartComponent } from '../../components/chartview'
-import Spinner from './spinner';
-import { ColorPicker, useColor } from "react-color-palette";
-import "react-color-palette/css";
-import { fetchCompanyName } from '../../api/fetchCompanyName'
-import Modal from 'react-modal';
-// import DatePicker from 'react-datepicker';
-// import 'react-datepicker/dist/react-datepicker.css';
-import CloseIcon from '@mui/icons-material/Close';
-import { DatePicker } from "@nextui-org/date-picker";
 
 const Chart: FC = () => {
   const [data, setData] = useState<StockPriceData[]>([])
@@ -76,14 +73,6 @@ const Chart: FC = () => {
   const [importLines, setImportLines] = useState<string>('')
   const [isVisibleDaily, setIsVisibleDaily] = useState<boolean>(false)
   const [isVisibleSelectDate, setIsVisibleSelectDate] = useState<boolean>(false)
-  const [hoverData, setHoverData] = useState<HoverInfo>({
-    index: 0,
-    open: 0,
-    close: 0,
-    high: 0,
-    low: 0,
-    volume: 0,
-  })
   const [companyData, setCompanyData] = useState<string>('')
   const [hoverTime, setHoverTime] = useState<any>(null)
   const [selectedLine, setSelectedLine] = useState<any>(null)
@@ -93,10 +82,6 @@ const Chart: FC = () => {
   const [indicatorArray, setIndicatorArray] = useState<string[]>([])
   const [timeIndexArray, setTimeIndexArray] = useState<any>([])
   const [lastLineJSON, setLastLineJSON] = useState<any>() 
-  const [changeValue, setChangeValue] = useState({
-    value: 0,
-    percent: 0,
-  })
   const indicators = ['RSI', 'EMA', 'WMA', 'ADX']
   const [loading, setLoading] = useState(false);
   const [bidPrice, setBidPrice] = useState(null);
@@ -131,12 +116,6 @@ const Chart: FC = () => {
   const [addData, setAddData] = useState<StockPriceData[]>([])
   const [addVolume, setAddVolume] = useState<VolumeData[]>([])
   const [isAllDelete, setIsAllDelete] = useState<boolean>(false)
-  const thicknessOptions = [
-    { value: '1', label: '1 pixel' },
-    { value: '2', label: '2 pixels' },
-    { value: '3', label: '3 pixels' },
-    { value: '4', label: '4 pixels' },
-  ];
   const [addStockChart, setAddStockChart] = useState<string>(null)
   const [isAddStock, setIsAddStock] = useState<Boolean>(false)
   const [isIndicator, setIsIndicator] = useState<Boolean>(false)
@@ -151,6 +130,26 @@ const Chart: FC = () => {
   const [isToolbarSelect, setIsToolbarSelect] = useState<Boolean>(false)
   const [IndicatorLoading, setIndicatorLoading] = useState<Boolean>(false);
   const [isStockBtn, setIsStockBtn] = useState<Boolean>(false);
+  const [isSelected, setIsSelected] = useState<Boolean>(false);
+  const [hoverData, setHoverData] = useState<HoverInfo>({
+    index: 0,
+    open: 0,
+    close: 0,
+    high: 0,
+    low: 0,
+    volume: 0,
+  })
+  const [changeValue, setChangeValue] = useState({
+    value: 0,
+    percent: 0,
+  })
+  const thicknessOptions = [
+    { value: '1', label: '1 pixel' },
+    { value: '2', label: '2 pixels' },
+    { value: '3', label: '3 pixels' },
+    { value: '4', label: '4 pixels' },
+  ];
+
   const handleFocus = () => setIsSearchModalOpen(true);
   
   const handleClose = (v) => setIsSearchModalOpen(false);
@@ -229,7 +228,7 @@ const Chart: FC = () => {
   const handleTemplePoint = (point: Point) => {
     setTempPoint(point)
   }
-
+ 
   const handleSelectedLine = (line: any) => {
     let lineJSON = JSON.parse(line)
     if (line !== '[]') {
@@ -463,8 +462,8 @@ const Chart: FC = () => {
     const isValueInArray = indicatorArray.includes(value);
   
     const nextIndicatorArray = isValueInArray
-      ? indicatorArray.filter(e => e !== value)  // Remove the value
-      : [...indicatorArray, value];             // Add the value
+      ? indicatorArray.filter(e => e !== value)  
+      : [...indicatorArray, value];             
     setIndicatorArray(nextIndicatorArray);
   };
   
@@ -598,6 +597,34 @@ const Chart: FC = () => {
     }
   },[IndicatorLoading])
 
+  useEffect(() => {
+    let timeoutId;
+    if (isLineSelected) {
+      timeoutId = setTimeout(() => {
+        setIsSelected(true)
+      },50)
+    }
+
+    return () => {
+      clearTimeout(timeoutId);
+      setIsSelected(false)
+    }
+  },[isLineSelected])
+ 
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if(event.key === 'Delete') {
+        setIsSelected(false)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  },[])
+  
  return (
     <div id='Chart'>
       <div className="pt-[36px] pl-[13px] pr-[50px]">
@@ -1141,8 +1168,8 @@ const Chart: FC = () => {
                 />
               </div>
               {/* !!!!! */}
-              { isLineSelected === true && (
-                <Draggable defaultPosition={{ x: 300, y: 100 }}>
+              { isSelected === true && (
+                <Draggable defaultPosition={{ x: 800, y: 5 }}>
                   <div className="p-3 z-30 bg-white w-[340px] h-auto cursor-pointer border-[1px] border-black" ref={draggableRef} >
                     <div>
                       <CloseIcon onClick={modalcloseHandler} className='float-right text-xl' />
@@ -1214,7 +1241,7 @@ const Chart: FC = () => {
                       <div className='p-2'>
                         color
                         <div className='p-2 flex'>
-                        text: <div className="w-[20px] h-[20px] rounded-md ml-[65px]"
+                        text: <div className="w-[20px] h-[20px] rounded-md ml-[73px]"
                                   style={{backgroundColor: selectTextColor.hex}} 
                                   onClick={() => {setIsTextcolor(!isTextcolor); setIsLinecolor(false); setIsBackgroundcolor(false)}}/> 
                         </div>
@@ -1229,7 +1256,7 @@ const Chart: FC = () => {
                           <div>
                             <div className='p-2 flex'>
                               line: <div 
-                                      className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[65px]'
+                                      className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px]'
                                       style={{backgroundColor: selectedLineColor.hex}}
                                       onClick={() => {setIsLinecolor(!isLinecolor); setIsTextcolor(false);  setIsBackgroundcolor(false)}}/>
                             </div>
@@ -1263,7 +1290,7 @@ const Chart: FC = () => {
                     </div>
                     <hr />
                   </div>
-              </Draggable>
+                </Draggable>
               )}
             </div>
             {/* -----main display */}
