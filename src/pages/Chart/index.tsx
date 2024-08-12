@@ -11,6 +11,7 @@ import { WatchList } from './watchList'
 import RemoveSvg from '../../assets/icons/Remove.png'
 import allRemoveSvg from '../../assets/icons/allRemoveSvg.png'
 import toolSvg from '../../assets/icons/tools.svg'
+import selectedtoolSvg from '../../assets/icons/selectedtools.svg'
 import { ChartComponent } from '../../components/chartview'
 import Spinner from './spinner';
 import { ColorPicker, useColor } from "react-color-palette";
@@ -541,12 +542,12 @@ const Chart: FC = () => {
     }
   }
 
-  const stockClickOutside = (event) => {
-    if(stockRef.current && !stockRef.current.contains(event.target)) {
-      setIsStockBtn(false);
-    }
+  // const stockClickOutside = (event) => {
+  //   if(stockRef.current && !stockRef.current.contains(event.target)) {
+  //     setIsStockBtn(false);
+  //   }
 
-  }
+  // }
 
   useEffect(() => {
     document.addEventListener('mousedown', draggableClickOutside);
@@ -556,7 +557,7 @@ const Chart: FC = () => {
     document.addEventListener('mousedown', linecolorClickOutside);
     document.addEventListener('mousedown', backgroundcolorClickOutside);
     document.addEventListener('mousedown', clickOutsideSelectData);
-    document.addEventListener('mousedown', stockClickOutside);
+    // document.addEventListener('mousedown', stockClickOutside);
     return () => {
       document.removeEventListener('mousedown', draggableClickOutside);
       document.removeEventListener('mousedown', timeFrameClickOutside);
@@ -565,7 +566,7 @@ const Chart: FC = () => {
       document.removeEventListener('mousedown', linecolorClickOutside);
       document.removeEventListener('mousedown', backgroundcolorClickOutside);
       document.removeEventListener('mousedown', clickOutsideSelectData);
-      document.removeEventListener('mousedown', stockClickOutside);
+      // document.removeEventListener('mousedown', stockClickOutside);
     };
   }, []);
 
@@ -930,12 +931,13 @@ const Chart: FC = () => {
                   <p className='pt-1'>Indicators</p>
                 </div>
               </div>
-              <div className='ml-auto p-[4px] w-[80px] h-full'>
+              <div className='bg-gray-300 w-[50px] ml-auto'></div>
+              {/* <div className='ml-auto p-[4px] w-[40px] h-full bg-gray-400'>
                 <div 
                   className={`text-center text-[20px] h-[39px] border border-gray-500 rounded-[12px] pt-[2px] ${isStockBtn ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
                   onClick={() => {setIsStockBtn(!isStockBtn)}}
                 >Stock</div>
-              </div>
+              </div> */}
             </div>
             {/* ------ header bar */}
             {/* coordinate bar --- */}
@@ -1011,11 +1013,11 @@ const Chart: FC = () => {
             {/* main display ----- */}
             <div className='flex relative visible'>
               <div className="z-[40]" >
-                <img src={toolSvg} alt="tool" onClick={() => setIsToolbarSelect(!isToolbarSelect)} className={`w-[35px] h-auto ml-[10px] p-[3px] border border-black rounded-[8px] ${isToolbarSelect ? "bg-gray-400" : "bg-white"}`}/>
+                <img src={isToolbarSelect ? selectedtoolSvg : toolSvg} alt="tool" onClick={() => setIsToolbarSelect(!isToolbarSelect)} className={`w-[45px] h-auto ml-[10px] p-[3px] border border-black rounded-[8px] ${isToolbarSelect ? "bg-white" : "bg-white"}`}/>
               </div>
               {
                 isToolbarSelect && (
-                  <div className="w-[52px] bg-white pt-[3px] pb-4 absolute top-[40px] left-[7px]  z-20 border-[2px] border-grey ">
+                  <div className="w-[52px] bg-white pt-[3px] pb-4 absolute top-[50px] left-[7px]  z-20 border-[2px] border-grey ">
                     <div>
                       <img
                         src={editType == 'arrow' ? ArrowSelectedSvg : ArrowSvg}
@@ -1297,8 +1299,8 @@ const Chart: FC = () => {
           </div>
           {/* ---main chartView */}
           {/* Watchlist------ */}
-          {isStockBtn && (
-            <div className='bg-white border-l-[2px] border-l-grey z-50' ref={stockRef}>
+          {/* {isStockBtn && ( */}
+            <div className='bg-white border-l-[2px] border-l-grey' ref={stockRef}>
               <WatchList 
                 addStockfromheader={addStock}
                 addStockChartHandler={ addStockChartHandler}
@@ -1306,7 +1308,7 @@ const Chart: FC = () => {
                 isAddStock={isAddStock}
               />
             </div>
-          )}
+          {/* )} */}
           {/* -----Watchlist */}
         </div>
         {/* ----main chart*/}

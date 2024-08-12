@@ -116,12 +116,6 @@ export const ChartComponent = (props: any) => {
     }
   }
 
-  const handleResize = () => {
-    chart.current?.applyOptions({
-
-    })
-  }
-
   useEffect(() => {
     if (editType === 'trendline') {
       chart.current?.addLineTool('TrendLine', [], trendLineOption)
@@ -321,10 +315,7 @@ export const ChartComponent = (props: any) => {
       .timeScale()
       .subscribeVisibleLogicalRangeChange(myVisibleLogicalRangeChangeHandler)
 
-    window.addEventListener('resize', handleResize)
-
     return () => {
-      window.removeEventListener('resize', handleResize)
       chart.current?.unsubscribeClick(getPointInformation)
       chart.current?.unsubscribeCrosshairMove(myCrosshairMoveHandler)
       chart.current
