@@ -24,6 +24,8 @@ const Header = () => {
         (width <= 1117) ? (
           <div>
             <button
+              type="button"
+              aria-label="Menu"
               className=" fixed top-4 left-4 p-3 bg-black text-white rounded-lg z-50 flex flex-col justify-around h-12 w-12 mr-[20px]"
               onClick={handleToggle}
             >

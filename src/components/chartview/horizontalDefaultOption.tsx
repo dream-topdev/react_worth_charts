@@ -9,8 +9,8 @@ export const horizontalLineDefaultOption = {
     value: '',
     alignment: TextAlignment.Left,
     font: {
-      color: 'rgba(41,98,255,1)',
-      size: 20,
+      color: '#000000',
+      size: 14,
       bold: false,
       italic: false,
       family: 'Arial',

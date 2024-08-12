@@ -9,8 +9,8 @@ export const verticalDefaultOption = {
     value: '',
     alignment: TextAlignment.Left,
     font: {
-      color: 'rgba(41,98,255,1)',
-      size: 20,
+      color: '#000000',
+      size: 15,
       bold: false,
       italic: false,
       family: 'Arial',

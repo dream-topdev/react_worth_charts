@@ -23,290 +23,10 @@ import { verticalDefaultOption } from './verticalDefaultOption'
 import { fetchStockIndicator } from '../../api/fetchStockIndicator'
 import { getTimeStamp } from '../../utils/getTimeStamp'
 import useWindowWidth from '../../context/useScreenWidth'
-import useHeaderWidthStore from '../../context/useHeadherWidth'
-import { color } from 'framer-motion'
-
-const trendLineOption = {
-  text: {
-    value: '',
-    alignment: TextAlignment.Left,
-    font: {
-      color: '#000000',
-      size: 14,
-      bold: true,
-      italic: true,
-      family: 'Arial',
-    },
-    box: {
-      alignment: {
-        vertical: BoxVerticalAlignment.Bottom,
-        horizontal: BoxHorizontalAlignment.Center,
-      },
-      angle: 0,
-      scale: 1,
-      offset: {
-        x: 0,
-        y: 20,
-      },
-      padding: {
-        x: 0,
-        y: 0,
-      },
-      maxHeight: 100,
-      shadow: {
-        blur: 0,
-        color: 'rgba(255,255,255,1)',
-        offset: {
-          x: 0,
-          y: 0,
-        },
-      },
-      border: {
-        color: '#ffffff00',
-        width: 4,
-        radius: 20,
-        highlight: false,
-        style: 1,
-      },
-      background: {
-        color: '#ffffff00',
-        inflation: {
-          x: 10,
-          y: 10,
-        },
-      },
-    },
-    padding: 0,
-    wordWrapWidth: 0,
-    forceTextAlign: false,
-    forceCalculateMaxLineWidth: false,
-  },
-  line: {
-    color: '#27c36c',
-    width: 2,
-    style: 0,
-    end: {
-      left: 0,
-      right: 0,
-    },
-    extend: {
-      right: false,
-      left: false,
-    },
-  },
-  visible: true,
-  editable: true,
-}
-
-const priceRangeOption = {
-  text: {
-    value: '',
-    alignment: TextAlignment.Left,
-    font: {
-      color: 'rgba(41,98,255,1)',
-      size: 23,
-      bold: false,
-      italic: false,
-      family: 'Arial',
-    },
-    box: {
-      alignment: {
-        vertical: BoxVerticalAlignment.Top,
-        horizontal: BoxHorizontalAlignment.Center,
-      },
-      angle: 0,
-      scale: 0.6,
-      offset: {
-        x: 0,
-        y: 0,
-      },
-      padding: {
-        x: 0,
-        y: 0,
-      },
-      maxHeight: 100,
-      shadow: {
-        blur: 0,
-        color: 'rgba(255,255,255,1)',
-        offset: {
-          x: 0,
-          y: 0,
-        },
-      },
-      border: {
-        color: 'rgba(126,211,33,0)',
-        width: 4,
-        radius: 0,
-        highlight: false,
-        style: 3,
-      },
-      background: {
-        color: 'rgba(199,56,56,0)',
-        inflation: {
-          x: 0,
-          y: 0,
-        },
-      },
-    },
-    padding: 0,
-    wordWrapWidth: 0,
-    forceTextAlign: true,
-    forceCalculateMaxLineWidth: true,
-  },
-  priceRange: {
-    background: {
-      color: '#ffffff00',
-    },
-    border: {
-      color: 'rgba(41,98,255,1)',
-      width: 2,
-      style: 0,
-    },
-    extend: {
-      right: false,
-      left: false,
-    },
-  },
-  visible: true,
-  editable: true,
-}
-
-const circleOption = {
-  text: {
-    value: '',
-    alignment: TextAlignment.Center,
-    font: {
-      color: '#000000',
-      size: 15,
-      bold: false,
-      italic: false,
-      family: 'Arial',
-    },
-    box: {
-      alignment: {
-        vertical: BoxVerticalAlignment.Middle,
-        horizontal: BoxHorizontalAlignment.Center,
-      },
-      angle: 0,
-      scale: 3,
-      offset: {
-        x: 0,
-        y: 10,
-      },
-      padding: {
-        x: 0,
-        y: 0,
-      },
-      maxHeight: 500,
-      border: {
-        color: '#ffffff00',
-        width: 4,
-        radius: 20,
-        highlight: false,
-        style: 3,
-      },
-      background: {
-        color: '#ffffff00',
-        inflation: {
-          x: 10,
-          y: 30,
-        },
-      },
-    },
-    padding: 30,
-    wordWrapWidth: 0,
-    forceTextAlign: false,
-    forceCalculateMaxLineWidth: false,
-  },
-  circle: {
-    background: {
-      color: '#ffffff00',
-    },
-    border: {
-      color: 'rgba(41,98,255,1)',
-      width: 2,
-      style: 0,
-    },
-    extend: {
-      right: true, //does not do anything, left in for ease of use with rectangle settings
-      left: false, //does not do anything, left in for ease of use with rectangle settings
-    },
-  },
-  visible: true,
-  editable: true,
-}
-
-const calloutOption = {
-  text: {
-    value: '',
-    alignment: TextAlignment.Left,
-    font: {
-      color: 'rgba(255,255,255,1)',
-      size: 14,
-      bold: false,
-      italic: false,
-      family: 'Arial',
-    },
-    box: {
-      alignment: {
-        vertical: BoxVerticalAlignment.Middle,
-        horizontal: BoxHorizontalAlignment.Center,
-      },
-      angle: 0,
-      scale: 1,
-      offset: {
-        x: 0,
-        y: 0,
-      },
-      padding: {
-        x: 0,
-        y: 0,
-      },
-      maxHeight: 300,
-      shadow: {
-        blur: 0,
-        color: 'rgba(255,255,255,1)',
-        offset: {
-          x: 0,
-          y: 0,
-        },
-      },
-      border: {
-        color: 'rgba(74,144,226,1)',
-        width: 2,
-        radius: 10,
-        highlight: false,
-        style: 0,
-      },
-      background: {
-        color: 'rgba(19,73,133,1)',
-        inflation: {
-          x: 10,
-          y: 10,
-        },
-      },
-    },
-    padding: 0,
-    wordWrapWidth: 120,
-    forceTextAlign: false,
-    forceCalculateMaxLineWidth: true,
-  },
-  line: {
-    color: 'rgba(74,144,226,1)',
-    width: 2,
-    style: 0,
-    end: {
-      left: 2,
-      right: 0,
-    },
-    extend: {
-      right: false,
-      left: false,
-    },
-  },
-  visible: true,
-  editable: true,
-}
+import { trendLineOption } from './trendLineOption'
+import { priceRangeOption } from './priceRangeOption'
+import { circleOption } from './circleOption'
+import { calloutOption } from './callloutOption'
 
 export const ChartComponent = (props: any) => {
   const {
@@ -364,18 +84,16 @@ export const ChartComponent = (props: any) => {
   const addCandleStickSeries = useRef <ISeriesApi<'Candlestick'> | null>(null)
   const [calloutPointLineSeries, setCalloutPointLineSeries] =
     useState<ILineToolApi<'Callout'>>()
-  const [priorSelectDelete, setPriorSelectDelete] =
-    useState<boolean>(selectDelete)
   const width = useWindowWidth()
   const existingSeries = useRef({});
-
+  
   const getPointInformation = (param: MouseEventParams) => {
     if (!param.point) {
       return
     }
- 
+   
     handleSelectedLine(chart.current?.getSelectedLineTools())
-
+    
     const pointPrice = candleStickSeries.current?.coordinateToPrice(
       param.point.y
     )
@@ -423,20 +141,13 @@ export const ChartComponent = (props: any) => {
     chart.current?.applyOptions({
       width: templeWidth,
     })
-  }, [templeWidth, isStockBtn])
+  }, [templeWidth])
 
   useEffect(() => {
     chart.current?.applyOptions({
       height: templeHeight,
     })
   }, [templeHeight])
-
-  useEffect(() => {
-    if (save) {
-      const lineData = chart.current?.exportLineTools()
-      handleExportData(lineData)
-    }
-  }, [save])
 
   useEffect(() => {
     const options = chart.current?.options()
@@ -886,17 +597,6 @@ export const ChartComponent = (props: any) => {
   }, [trendPoints])
 
   useEffect(() => {
-    if (rectanglePoints) {
-      chart.current?.addLineTool(
-        'Rectangle',
-        [rectanglePoints.point1, rectanglePoints.point2],
-        rectangleDefaultOption
-      )
-    }
-    chart.current?.timeScale().fitContent()
-  }, [rectanglePoints])
-
-  useEffect(() => {
     if (labelPoint) {
       const ret = chart.current?.addLineTool('Text', [labelPoint], labelDefaultOption)
       setLastLineJSON (ret); 
@@ -948,12 +648,12 @@ export const ChartComponent = (props: any) => {
 
   useEffect(() => {
     if (priceRangePoint) {
-      chart.current?.removeSelectedLineTools();
       chart.current?.addLineTool(
         'PriceRange',
         [priceRangePoint.point1, priceRangePoint.point2],
         priceRangeOption
       )
+      chart.current?.removeSelectedLineTools();
     }
 
     chart.current.applyOptions({})

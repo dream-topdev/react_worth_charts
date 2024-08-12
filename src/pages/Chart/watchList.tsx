@@ -97,9 +97,13 @@ export const WatchList = (props : any) => {
   useEffect(() => {
     const updateData = () => {
       let tempLists = []
-      Object.keys(watchLists).map((header: string) => {
-        watchLists[header].lists.map((stock: string) => {
-          tempLists.push(stock)
+      Object.keys(watchLists).map((header: string, headerIndex) => {
+        watchLists[header].lists.map((stock: string, stockIndex) => {
+          const key = `${headerIndex}-${stockIndex}`
+          tempLists.push({
+            key: key,
+            stock: stock
+          })
         })
       })
 
