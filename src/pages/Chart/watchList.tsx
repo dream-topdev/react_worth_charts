@@ -29,7 +29,7 @@ export const WatchList = (props : any) => {
   const { 
     addStockfromheader,
     addStockChartHandler,
-    symbol
+    symbol,
   } = props;
   const { watchLists, setWatchLists, loadWatchLists, saveWatchLists } =
     useWatchListsStore()
@@ -77,7 +77,7 @@ export const WatchList = (props : any) => {
     }
     setIsVisibleAddList(false)
   }
-
+  
   useEffect(() => {
     if ( addStockfromheader != null ) {
       if (!watchLists["STOCKS"].lists.includes(addStockfromheader)) {
@@ -93,6 +93,7 @@ export const WatchList = (props : any) => {
       setIsVisibleAddList(false)
     }
   },[addStockfromheader])
+
 
   useEffect(() => {
     const updateData = () => {
