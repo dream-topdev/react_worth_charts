@@ -132,6 +132,7 @@ const Chart: FC = () => {
   const [IndicatorLoading, setIndicatorLoading] = useState<Boolean>(false);
   const [isStockBtn, setIsStockBtn] = useState<Boolean>(false);
   const [isSelected, setIsSelected] = useState<Boolean>(false);
+  const [stockList, setStockList] = useState<any>(['AAPL']);
   const [hoverData, setHoverData] = useState<HoverInfo>({
     index: 0,
     open: 0,
@@ -433,6 +434,7 @@ const Chart: FC = () => {
   
   const addStockHandler = () => {
     setAddStock(symbol);
+    setStockList([...stockList, symbol]);
   }
 
   useEffect(() =>{
@@ -624,7 +626,7 @@ const Chart: FC = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   },[])
-  
+
  return (
     <div id='Chart'>
       <div className="pt-[36px] pl-[13px] pr-[50px]">
