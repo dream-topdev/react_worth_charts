@@ -433,10 +433,16 @@ const Chart: FC = () => {
   }, [selectedLine])
   
   const addStockHandler = () => {
+    stockList.map(stock => {
+      if(stock === symbol) {
+        alert('You have already added this stock')
+        return;
+      }
+    })
     setAddStock(symbol);
     setStockList([...stockList, symbol]);
   }
-
+  
   useEffect(() =>{
     const fetchData = async () => {
       try {
@@ -648,8 +654,7 @@ const Chart: FC = () => {
                       value={symbol}
                       readOnly
                     />
-                    {isSearchModalOpen && (
-                      <div className="fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50">
+                      <div className={`${isSearchModalOpen? "block":"hidden"} fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 `}>
                         <div className="relative bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full h-3/4">
                           <button
                             className="absolute top-4 right-4 text-red-500 text-2xl hover:text-red-700"
@@ -707,7 +712,6 @@ const Chart: FC = () => {
                           </div>
                         </div>
                       </div>
-                    )}
                     <div className="flex">
                       <img
                         src={CompareSvg}
@@ -1022,11 +1026,9 @@ const Chart: FC = () => {
             {/* main display ----- */}
             <div className='flex relative visible'>
               <div className="z-[40]" >
-                <img src={isToolbarSelect ? selectedtoolSvg : toolSvg} alt="tool" onClick={() => setIsToolbarSelect(!isToolbarSelect)} className={`w-[45px] h-auto ml-[10px] p-[3px] border border-black rounded-[8px] ${isToolbarSelect ? "bg-white" : "bg-white"}`}/>
+                <img src={isToolbarSelect ? selectedtoolSvg : toolSvg} alt="tool" onClick={() => setIsToolbarSelect(!isToolbarSelect)} className={`w-[45px] h-auto ml-[10px] p-[3px] border border-black rounded-[8px] ${isToolbarSelect ? "bg-gray-300" : "bg-white"}`}/>
               </div>
-              {
-                isToolbarSelect && (
-                  <div className="w-[52px] bg-white pt-[3px] pb-4 absolute top-[50px] left-[7px]  z-20 border-[2px] border-grey ">
+                  <div className={`w-[52px] bg-white pt-[3px] pb-4 absolute top-[50px] left-[7px]  z-20 border-[2px] border-grey ${isToolbarSelect? 'block' : 'hidden'}`}>
                     <div>
                       <img
                         src={editType == 'arrow' ? ArrowSelectedSvg : ArrowSvg}
@@ -1136,8 +1138,6 @@ const Chart: FC = () => {
                       />
                     </div>
                   </div> 
-                )
-              }
               {/* !!! */}
               <div className='absolute inset-0  z-10'>
                 <ChartComponent
@@ -1308,8 +1308,8 @@ const Chart: FC = () => {
           </div>
           {/* ---main chartView */}
           {/* Watchlist------ */}
-          {isStockBtn && (
-            <div className='bg-white border-l-[2px] border-l-grey z-[50]' ref={stockRef}>
+          {/* {isStockBtn && ( */}
+            <div className={`bg-white border-l-[2px] border-l-grey z-[50] ${isStockBtn? "block" : "hidden"}`} ref={stockRef}>
               <WatchList 
                 addStockfromheader={addStock}
                 addStockChartHandler={ addStockChartHandler}
@@ -1317,7 +1317,7 @@ const Chart: FC = () => {
                 isAddStock={isAddStock}
               />
             </div>
-          )}
+          {/* )} */}
           {/* -----Watchlist */}
         </div>
         {/* ----main chart*/}
