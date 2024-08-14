@@ -65,6 +65,10 @@ export const WatchList = (props : any) => {
   }
 
   const handleAddStock = (tempAddStock: string) => {
+    if(watchLists["STOCKS"].lists.includes(addStockfromheader)) {
+      alert('Error! Already added!')
+      return;
+    }
     if (!watchLists[addCategory].lists.includes(tempAddStock)) {
       setWatchLists({
         ...watchLists,
@@ -77,9 +81,13 @@ export const WatchList = (props : any) => {
     }
     setIsVisibleAddList(false)
   }
-
+  
   useEffect(() => {
     if ( addStockfromheader != null ) {
+      if(watchLists["STOCKS"].lists.includes(addStockfromheader)) {
+        alert('Error! Already added!')
+        return;
+      }
       if (!watchLists["STOCKS"].lists.includes(addStockfromheader)) {
         setWatchLists({
           ...watchLists,

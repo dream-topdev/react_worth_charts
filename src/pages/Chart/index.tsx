@@ -542,12 +542,11 @@ const Chart: FC = () => {
     }
   }
 
-  // const stockClickOutside = (event) => {
-  //   if(stockRef.current && !stockRef.current.contains(event.target)) {
-  //     setIsStockBtn(false);
-  //   }
-
-  // }
+  const stockClickOutside = (event) => {
+    if(stockRef.current && !stockRef.current.contains(event.target)) {
+      setIsStockBtn(false);
+    }
+  }
 
   useEffect(() => {
     document.addEventListener('mousedown', draggableClickOutside);
@@ -557,7 +556,7 @@ const Chart: FC = () => {
     document.addEventListener('mousedown', linecolorClickOutside);
     document.addEventListener('mousedown', backgroundcolorClickOutside);
     document.addEventListener('mousedown', clickOutsideSelectData);
-    // document.addEventListener('mousedown', stockClickOutside);
+    document.addEventListener('mousedown', stockClickOutside);
     return () => {
       document.removeEventListener('mousedown', draggableClickOutside);
       document.removeEventListener('mousedown', timeFrameClickOutside);
@@ -566,7 +565,7 @@ const Chart: FC = () => {
       document.removeEventListener('mousedown', linecolorClickOutside);
       document.removeEventListener('mousedown', backgroundcolorClickOutside);
       document.removeEventListener('mousedown', clickOutsideSelectData);
-      // document.removeEventListener('mousedown', stockClickOutside);
+      document.removeEventListener('mousedown', stockClickOutside);
     };
   }, []);
 
@@ -718,24 +717,25 @@ const Chart: FC = () => {
                   </div>
                 </div>
               <div className="flex flex-row my-1">
-                <p
-                  className={
-                    ['1D','5D','1W', '1M','3M','6M','1Y','5Y'].includes(interval)
-                      ? 'flex justify-center items-center w-[40px] cursor-pointer hover:bg-gray5 text-blue-700'
-                      : 'flex justify-center items-center w-[40px] cursor-pointer hover:bg-gray5'
-                  }
-                >
-                  {['1D','5D','1W', '1M','3M','6M','1Y','5Y'].includes(interval)
-                    ? interval.slice(0, 2).toUpperCase()
-                    : '1D'}
-                </p>
-                <div ref={timeFrameRef} className='z-[40]'>
-                  <img
-                    src={IntervalSvg}
-                    alt=''
-                    className="cursor-pointer hover:bg-gray5"
+                <div className='z-[40] flex' ref={timeFrameRef}>
+                  <p
+                    className={
+                      ['1D','5D','1W', '1M','3M','6M','1Y','5Y'].includes(interval)
+                        ? 'flex justify-center items-center w-[40px] cursor-pointer hover:bg-gray5 text-blue-700 ml-[10px]'
+                        : 'flex justify-center items-center w-[40px] cursor-pointer hover:bg-gray5  ml-[10px]'
+                    }
                     onClick={() => setIsVisibleDaily(!isVisibleDaily)}
-                  />
+                  >
+                    {['1D','5D','1W', '1M','3M','6M','1Y','5Y'].includes(interval)
+                      ? interval.slice(0, 2).toUpperCase()
+                      : '1D'}
+                    <img
+                      src={IntervalSvg}
+                      alt=''
+                      className="cursor-pointer w-[15px]"
+                      // onClick={() => setIsVisibleDaily(!isVisibleDaily)}
+                    />
+                  </p>
                   {isVisibleDaily && (
                     <div 
                       className="flex flex-col top-12 gap-1 absolute  mt-[130px]" 
@@ -918,26 +918,33 @@ const Chart: FC = () => {
                       })}
                     </div>
                   )}
-                <div className="w-1 border-r-2 border-b-gray-800" />
-                  <img
-                    src={IndicatorsSvg}
-                    className={`cursor-pointer hover:bg-gray5 ${isIndicator && 'bg-gray-200'}`}
-                    alt=''
+                  <div 
+                    className={`w-1 border-r-2 border-b-gray-800 `}
+                  />
+                  <div 
+                    className={`flex cursor-pointer hover:bg-gray5 pr-[8px] ml-[3px] ${isIndicator && 'bg-gray-200'}`}
                     onClick={() => {
                       indicatorButtonSelect('SMA')
                       setIsIndicator(!isIndicator)
                     }}
-                  />
-                  <p className='pt-1'>Indicators</p>
+                  >
+                    <img
+                      src={IndicatorsSvg}
+                      alt=''
+                    />
+                    <p className='pt-1'>Indicators</p>
+                  </div>
                 </div>
               </div>
-              <div className='bg-gray-300 w-[50px] ml-auto'></div>
+              {/* <div className='bg-gray-300 w-[50px] ml-auto'></div> */}
               {/* <div className='ml-auto p-[4px] w-[40px] h-full bg-gray-400'>
-                <div 
-                  className={`text-center text-[20px] h-[39px] border border-gray-500 rounded-[12px] pt-[2px] ${isStockBtn ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
-                  onClick={() => {setIsStockBtn(!isStockBtn)}}
-                >Stock</div>
               </div> */}
+              <div 
+                className={`ml-auto mr-[10px] p-[7px] text-center text-[20px] h-[39px] border border-gray-500 rounded-[12px] mt-[5px] pt-[2px] ${isStockBtn ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
+                onClick={() => {setIsStockBtn(!isStockBtn)}}
+              >
+                Stock
+              </div>
             </div>
             {/* ------ header bar */}
             {/* coordinate bar --- */}
@@ -1299,8 +1306,8 @@ const Chart: FC = () => {
           </div>
           {/* ---main chartView */}
           {/* Watchlist------ */}
-          {/* {isStockBtn && ( */}
-            <div className='bg-white border-l-[2px] border-l-grey' ref={stockRef}>
+          {isStockBtn && (
+            <div className='bg-white border-l-[2px] border-l-grey z-[50]' ref={stockRef}>
               <WatchList 
                 addStockfromheader={addStock}
                 addStockChartHandler={ addStockChartHandler}
@@ -1308,7 +1315,7 @@ const Chart: FC = () => {
                 isAddStock={isAddStock}
               />
             </div>
-          {/* )} */}
+          )}
           {/* -----Watchlist */}
         </div>
         {/* ----main chart*/}
