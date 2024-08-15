@@ -244,6 +244,16 @@ export const ChartComponent = (props: any) => {
       })
   
       volumeSeries.setData(volume)
+      
+      chart.current.timeScale().setVisibleLogicalRange({
+        from: data.length - 50,
+        to: data.length,
+      })
+      chart.current.subscribeClick(getPointInformation)
+      chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
+      chart.current
+        .timeScale()
+        .subscribeVisibleLogicalRangeChange(myVisibleLogicalRangeChangeHandler)
     }
     
     if(isAddStock) {
@@ -303,17 +313,17 @@ export const ChartComponent = (props: any) => {
           addCandleStickSeries.current = chart.current.addAreaSeries({ lineColor: 'red', topColor: '#ffffff00', bottomColor: '#ffffff00', lineWidth: 2,   });
           addCandleStickSeries.current.setData(addConvertData);
       }
-    }
 
-    chart.current.timeScale().setVisibleLogicalRange({
-      from: data.length - 50,
-      to: data.length,
-    })
-    chart.current.subscribeClick(getPointInformation)
-    chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
-    chart.current
-      .timeScale()
-      .subscribeVisibleLogicalRangeChange(myVisibleLogicalRangeChangeHandler)
+      chart.current.timeScale().setVisibleLogicalRange({
+        from: addData.length - 50,
+        to: addData.length,
+      })
+      chart.current.subscribeClick(getPointInformation)
+      chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
+      chart.current
+        .timeScale()
+        .subscribeVisibleLogicalRangeChange(myVisibleLogicalRangeChangeHandler)
+    }
 
     return () => {
       chart.current?.unsubscribeClick(getPointInformation)

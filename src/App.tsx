@@ -16,7 +16,8 @@ import Header from "./components/header/index.tsx"
 import Footer from './components/footer/index.tsx'
 import { Provider } from 'react-redux'
 import { MobileToggleProvider } from './context/ToggleBtn.tsx'
- 
+import {NextUIProvider} from "@nextui-org/react";
+
 const router = createBrowserRouter([
   {
     path: '/',
@@ -72,12 +73,14 @@ const App = () => {
   
   return (
     <div>
-      <AuthProvider>
-        <MobileToggleProvider>
-          <RouterProvider router={router} />
-          <Toaster />
-        </MobileToggleProvider>
-      </AuthProvider>
+      <NextUIProvider>
+        <AuthProvider>
+          <MobileToggleProvider>
+            <RouterProvider router={router} />
+            <Toaster />
+          </MobileToggleProvider>
+        </AuthProvider>
+      </NextUIProvider>
     </div>
   )
 }
