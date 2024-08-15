@@ -126,6 +126,7 @@ const Chart: FC = () => {
   const indicatorRef = useRef(null)
   const textColorRef = useRef(null)
   const lineColorRef = useRef(null)
+  const searchModalRef = useRef(null)
   const stockRef = useRef(null)
   const backgroundColorRef = useRef(null)
   const [isToolbarSelect, setIsToolbarSelect] = useState<Boolean>(false)
@@ -556,6 +557,12 @@ const Chart: FC = () => {
     }
   }
 
+  const serchModalClickOutside = (event) => {
+    if(searchModalRef.current && !searchModalRef.current.contains(event.target)) {
+      setIsSearchModalOpen(false);
+    }
+  }
+
   useEffect(() => {
     document.addEventListener('mousedown', draggableClickOutside);
     document.addEventListener('mousedown', timeFrameClickOutside);
@@ -565,6 +572,7 @@ const Chart: FC = () => {
     document.addEventListener('mousedown', backgroundcolorClickOutside);
     document.addEventListener('mousedown', clickOutsideSelectData);
     document.addEventListener('mousedown', stockClickOutside);
+    document.addEventListener('mousedown', serchModalClickOutside);
     return () => {
       document.removeEventListener('mousedown', draggableClickOutside);
       document.removeEventListener('mousedown', timeFrameClickOutside);
@@ -574,6 +582,7 @@ const Chart: FC = () => {
       document.removeEventListener('mousedown', backgroundcolorClickOutside);
       document.removeEventListener('mousedown', clickOutsideSelectData);
       document.removeEventListener('mousedown', stockClickOutside);
+      document.removeEventListener('mousedown', serchModalClickOutside);
     };
   }, []);
 
@@ -654,8 +663,13 @@ const Chart: FC = () => {
                       value={symbol}
                       readOnly
                     />
-                      <div className={`${isSearchModalOpen? "block":"hidden"} fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 `}>
-                        <div className="relative bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full h-3/4">
+                      <div 
+                        className={`${isSearchModalOpen? "block":"hidden"} fixed inset-0 flex items-center justify-center bg-gray-500 bg-opacity-50 z-50 `}
+                      >
+                        <div 
+                          className="relative bg-white p-8 rounded-lg shadow-lg max-w-3xl w-full h-3/4" 
+                          ref={searchModalRef}
+                        >
                           <button
                             className="absolute top-4 right-4 text-red-500 text-2xl hover:text-red-700"
                             onClick={handleClose}
@@ -742,9 +756,8 @@ const Chart: FC = () => {
                       // onClick={() => setIsVisibleDaily(!isVisibleDaily)}
                     />
                   </p>
-                  {isVisibleDaily && (
                     <div 
-                      className="flex flex-col top-12 gap-1 absolute  mt-[130px]" 
+                      className={`${isVisibleDaily? "block" : "hidden"} flex flex-col top-12 gap-1 absolute  mt-[130px]`} 
                     >
                       <button
                         className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
@@ -819,7 +832,6 @@ const Chart: FC = () => {
                         5Y
                       </button>
                     </div>
-                  )}
                 </div>
                 <div 
                   className={`flex-row flex justify-center hover:bg-gray5 ${isVisibleSelectDate&& 'bg-gray5'} p-[5px]`}
@@ -837,114 +849,108 @@ const Chart: FC = () => {
                       className="cursor-pointer hover:bg-gray5"
                     />
                   </div>
-                    {isVisibleSelectDate && (
-                      <div  className="flex flex-col gap-1 absolute mt-12 bg-white border border-gray-300  z-[34]">
-                        <div className="relative">
-                          <div className='flex'>
-                            <div className='flex items-center p-[5px]'>
-                              <DatePicker 
-                                label="First"
-                                className='border border-gray-300 rounded-md w-[140px]'
-                                classNames={{
-                                  calendar: "bg-white border border-gray-300 ",
-                                }}
-                                onChange={handleStartDate}
-                              />  
-                            </div>
-                          </div>
-                          <div className='flex'>
-                            <div className='flex items-center p-[5px]'>
-                              <DatePicker 
-                                label="End"
-                                className='ml-[5px] border border-gray-300 rounded-md w-[140px]'
-                                classNames={{
-                                  calendar: "bg-white border border-gray-300 ",
-                                }}
-                                onChange={handleEndDate}
-                              />  
-                            </div>
-                          </div>
-                        </div>
-                        <button onClick={() => {
-                            if(startDate1 !== null || startDate2 !== null) {
-                                if(interval === '15min' || interval === '30min' || interval === '60min') {
-                                  alert('Not support function!')
-                                  return;
-                                }
-                                if(startDate1 >= startDate2) {
-                                  alert('error! start should be before that end date');
-                                  return;
-                                }
-                              }
-                              setStart(startDate1);
-                              setEnd(startDate2);
-                              setIsVisibleSelectDate(false)
+                  <div  className={`${isVisibleSelectDate? 'block' : 'hidden'} flex flex-col gap-1 absolute mt-12 bg-white border border-gray-300  z-[34]`}>
+                    <div className="relative">
+                      <div className='flex'>
+                        <div className='flex items-center p-[5px]'>
+                          <DatePicker 
+                            label="First"
+                            className='border border-gray-300 rounded-md w-[140px]'
+                            classNames={{
+                              calendar: "bg-white border border-gray-300 ",
                             }}
-                            className='p-[5px] m-[5px] bg-gray-400 hover:bg-gray-200'
-                        >
-                          submit
-                        </button>
+                            onChange={handleStartDate}
+                          />  
+                        </div>
                       </div>
-                    )}
+                      <div className='flex'>
+                        <div className='flex items-center p-[5px]'>
+                          <DatePicker 
+                            label="End"
+                            className='ml-[5px] border border-gray-300 rounded-md w-[140px]'
+                            classNames={{
+                              calendar: "bg-white border border-gray-300 ",
+                            }}
+                            onChange={handleEndDate}
+                          />  
+                        </div>
+                      </div>
+                    </div>
+                    <button onClick={() => {
+                        if(startDate1 !== null || startDate2 !== null) {
+                            if(interval === '15min' || interval === '30min' || interval === '60min') {
+                              alert('Not support function!')
+                              return;
+                            }
+                            if(startDate1 >= startDate2) {
+                              alert('error! start should be before that end date');
+                              return;
+                            }
+                          }
+                          setStart(startDate1);
+                          setEnd(startDate2);
+                          setIsVisibleSelectDate(false)
+                        }}
+                        className='p-[5px] m-[5px] bg-gray-400 hover:bg-gray-200'
+                    >
+                      submit
+                    </button>
+                  </div>
                 </div>
                 <div className="w-2 border-r-2 border-b-gray-800" />
-                <div className='flex'>
-                  <img
-                    src={SettingsSvg}
-                    alt="settings"
-                    className="cursor-pointer hover:bg-gray5"
-                  />
-                  <img
-                    src={IntervalSvg}
-                    alt=''
-                    className="cursor-pointer hover:bg-gray5"
+                <div className='flex' ref={indicatorRef}>
+                  <div 
+                    className='flex cursor-pointer hover:bg-gray5'
                     onClick={() => {
                       setIsVisibleIndicator(!isVisibleIndicator)
                     }}
-                  />
-                  {isVisibleIndicator && (
-                    <div 
-                      className="flex flex-col top-12 gap-1 left-[520px] z-[11]"
-                      ref={indicatorRef}
-                    >
-                      {indicators.map((value, index) => {
-                        const buttonColor = indicatorArray.includes(value)
-                          ? 'bg-gray4'
-                          : `bg-[#f9f9f9]`
-
-                        return (
-                          <button
-                            className={`w-24 ${buttonColor} text-red-600 rounded-md`}
-                            onClick={() => {indicatorButtonSelect(value); setIsVisibleIndicator(!isVisibleIndicator)}}
-                            key={index}
-                          >
-                            {value}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  )}
-                  <div 
-                    className={`w-1 border-r-2 border-b-gray-800 `}
-                  />
-                  <div 
-                    className={`flex cursor-pointer hover:bg-gray5 pr-[8px] ml-[3px] ${isIndicator && 'bg-gray-200'}`}
-                    onClick={() => {
-                      indicatorButtonSelect('SMA')
-                      setIsIndicator(!isIndicator)
-                    }}
                   >
                     <img
-                      src={IndicatorsSvg}
+                      src={SettingsSvg}
+                      alt="settings"
+                    />
+                    <img
+                      src={IntervalSvg}
                       alt=''
                     />
-                    <p className='pt-1'>Indicators</p>
+                  </div>
+                  <div 
+                    className={`${isVisibleIndicator ? "block" : "hidden"} flex flex-col gap-1 z-[14] absolute mt-[49px] ml-[-20px]`}
+                  >
+                    {indicators.map((value, index) => {
+                      const buttonColor = indicatorArray.includes(value)
+                        ? 'bg-gray4'
+                        : `bg-[#f9f9f9]`
+
+                      return (
+                        <button
+                          className={`w-24 ${buttonColor} text-red-600 rounded-md hover:bg-gray-300`}
+                          onClick={() => {indicatorButtonSelect(value); setIsVisibleIndicator(!isVisibleIndicator)}}
+                          key={index}
+                        >
+                          {value}
+                        </button>
+                      )
+                    })}
                   </div>
                 </div>
+                <div 
+                  className={`w-1 border-r-2 border-b-gray-800 `}
+                />
+                <div 
+                  className={`flex cursor-pointer hover:bg-gray5 pr-[8px] ml-[3px] ${isIndicator && 'bg-gray-200'}`}
+                  onClick={() => {
+                    indicatorButtonSelect('SMA')
+                    setIsIndicator(!isIndicator)
+                  }}
+                >
+                  <img
+                    src={IndicatorsSvg}
+                    alt=''
+                  />
+                  <p className='pt-1'>Indicators</p>
+                </div>
               </div>
-              {/* <div className='bg-gray-300 w-[50px] ml-auto'></div> */}
-              {/* <div className='ml-auto p-[4px] w-[40px] h-full bg-gray-400'>
-              </div> */}
               <div 
                 className={`ml-auto mr-[10px] p-[7px] text-center text-[20px] h-[39px] border border-gray-500 rounded-[12px] mt-[5px] pt-[2px] ${isStockBtn ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
                 onClick={() => {setIsStockBtn(!isStockBtn)}}
@@ -1179,130 +1185,130 @@ const Chart: FC = () => {
                 />
               </div>
               {/* !!!!! */}
-              { isSelected === true && (
-                <Draggable defaultPosition={{ x: 800, y: 5 }}>
-                  <div className="p-3 z-30 bg-white w-[340px] h-auto cursor-pointer border-[1px] border-black" ref={draggableRef} >
-                    <div>
-                      <CloseIcon onClick={modalcloseHandler} className='float-right text-xl' />
-                    </div>
-                    <br /><hr />
-                    <div>
-                      <div className='p-2'>
-                        <BaseInput
-                          name="text"
-                          label="text:"
-                          placeholder=""
-                          value={selectedLineText}
-                          handleChange={e => {
-                            setSelectedLineText(e.target.value)
-                          }}
-                        />
+                <div className={`${isSelected ? 'block' : 'hidden'} absolute inset-0 z-20`}>
+                  <Draggable defaultPosition={{ x: 800, y: 5 }}>
+                    <div className="p-3 z-30 bg-white w-[340px] h-auto cursor-pointer border-[1px] border-black" ref={draggableRef} >
+                      <div>
+                        <CloseIcon onClick={modalcloseHandler} className='float-right text-xl' />
                       </div>
-                    </div>
-                    <hr />
-                    <div>
-                      <div className='p-2'>
-                        <BaseSelect 
-                          name='thickness'
-                          label='thickness:'
-                          options={thicknessOptions}
-                          value={String(thickness)}
-                          isClearable={false}
-                          setFieldValue={(field, value) => thicknessListhandler(value)}
-                        />
+                      <br /><hr />
+                      <div>
+                        <div className='p-2'>
+                          <BaseInput
+                            name="text"
+                            label="text:"
+                            placeholder=""
+                            value={selectedLineText}
+                            handleChange={e => {
+                              setSelectedLineText(e.target.value)
+                            }}
+                          />
+                        </div>
                       </div>
-                    </div>
-                    {(selectedToolType == "HorizontalLine" || selectedToolType == "VerticalLine") && (
-                    <div>
                       <hr />
-                      <div className='p-2'>
-                        move to:
-                          <div>
-                            {(selectedToolType == "HorizontalLine") && (
-                              <input 
-                                type="text"
-                                value={horizontalValue}
-                                onChange={(e) => setHorizontalValue(e.target.value)}
-                                onKeyDown={horizontalKeyDown}
-                                className='p-2 border-[1px] w-full border-green-400 h-[34px] rounded-md'
-                              />
-                            )}
-                            {(selectedToolType == "VerticalLine") && (
-                              <div>
-                                <DatePicker 
-                                  label='Date'
-                                  className='border border-gray-300 rounded-md w-full'
-                                  classNames={{
-                                    calendar: "bg-white border border-gray-300 ",
-                                  }}
-                                  onChange={(date) => {
-                                    const { year, month, day } = date;
-                                    const jsDate = new Date(year, month - 1, day);
-                                    verticalValueHandler(jsDate)
-                                  }}
+                      <div>
+                        <div className='p-2'>
+                          <BaseSelect 
+                            name='thickness'
+                            label='thickness:'
+                            options={thicknessOptions}
+                            value={String(thickness)}
+                            isClearable={false}
+                            setFieldValue={(field, value) => thicknessListhandler(value)}
+                          />
+                        </div>
+                      </div>
+                      {(selectedToolType == "HorizontalLine" || selectedToolType == "VerticalLine") && (
+                      <div>
+                        <hr />
+                        <div className='p-2'>
+                          move to:
+                            <div>
+                              {(selectedToolType == "HorizontalLine") && (
+                                <input 
+                                  type="text"
+                                  value={horizontalValue}
+                                  onChange={(e) => setHorizontalValue(e.target.value)}
+                                  onKeyDown={horizontalKeyDown}
+                                  className='p-2 border-[1px] w-full border-green-400 h-[34px] rounded-md'
                                 />
+                              )}
+                              {(selectedToolType == "VerticalLine") && (
+                                <div>
+                                  <DatePicker 
+                                    label='Date'
+                                    className='border border-gray-300 rounded-md w-full'
+                                    classNames={{
+                                      calendar: "bg-white border border-gray-300 ",
+                                    }}
+                                    onChange={(date) => {
+                                      const { year, month, day } = date;
+                                      const jsDate = new Date(year, month - 1, day);
+                                      verticalValueHandler(jsDate)
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                        </div>
+                      </div>
+                      )}
+                      <hr />
+                      <div>
+                        <div className='p-2'>
+                          color
+                          <div className='p-2 flex'>
+                          text: <div className="w-[20px] h-[20px] rounded-md ml-[73px]"
+                                    style={{backgroundColor: selectTextColor.hex}} 
+                                    onClick={() => {setIsTextcolor(!isTextcolor); setIsLinecolor(false); setIsBackgroundcolor(false)}}/> 
+                          </div>
+                          <div>
+                            { isTextcolor &&(
+                              <div onMouseDown={preventDrag} ref={textColorRef}> 
+                                <ColorPicker color={selectTextColor} onChange={setSelectTextColor} />
                               </div>
                             )}
                           </div>
-                      </div>
-                    </div>
-                    )}
-                    <hr />
-                    <div>
-                      <div className='p-2'>
-                        color
-                        <div className='p-2 flex'>
-                        text: <div className="w-[20px] h-[20px] rounded-md ml-[73px]"
-                                  style={{backgroundColor: selectTextColor.hex}} 
-                                  onClick={() => {setIsTextcolor(!isTextcolor); setIsLinecolor(false); setIsBackgroundcolor(false)}}/> 
-                        </div>
-                        <div>
-                          { isTextcolor &&(
-                            <div onMouseDown={preventDrag} ref={textColorRef}> 
-                              <ColorPicker color={selectTextColor} onChange={setSelectTextColor} />
+                          {(selectedToolType !== 'Text') && (
+                            <div>
+                              <div className='p-2 flex'>
+                                line: <div 
+                                        className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px]'
+                                        style={{backgroundColor: selectedLineColor.hex}}
+                                        onClick={() => {setIsLinecolor(!isLinecolor); setIsTextcolor(false);  setIsBackgroundcolor(false)}}/>
+                              </div>
+                              <div>
+                                { isLinecolor && (
+                                  <div onMouseDown={preventDrag} ref={lineColorRef}> 
+                                    <ColorPicker color={selectedLineColor} onChange={setSelectedLineColor} />
+                                  </div>
+                                )}
+                              </div>
+                            </div>
+                          )}
+                          {(selectedToolType == 'Circle' || selectedToolType == 'PriceRange'|| selectedToolType == 'Callout') && (
+                            <div>
+                              <div className='p-2 flex'>
+                                background: <div 
+                                              className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[13px]'
+                                              style={{backgroundColor: selectBackgroundColor.hex}}
+                                              onClick={() => {setIsBackgroundcolor(!isBackgroundcolor); setIsTextcolor(false); setIsLinecolor(false)}}/>
+                              </div>
+                              <div>
+                                { isBackgroundcolor && (
+                                  <div onMouseDown={preventDrag} ref={backgroundColorRef}> 
+                                    <ColorPicker color={selectBackgroundColor} onChange={setselectBackgroundColor} />
+                                  </div>
+                                )}
+                              </div>
                             </div>
                           )}
                         </div>
-                        {(selectedToolType !== 'Text') && (
-                          <div>
-                            <div className='p-2 flex'>
-                              line: <div 
-                                      className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px]'
-                                      style={{backgroundColor: selectedLineColor.hex}}
-                                      onClick={() => {setIsLinecolor(!isLinecolor); setIsTextcolor(false);  setIsBackgroundcolor(false)}}/>
-                            </div>
-                            <div>
-                              { isLinecolor && (
-                                <div onMouseDown={preventDrag} ref={lineColorRef}> 
-                                  <ColorPicker color={selectedLineColor} onChange={setSelectedLineColor} />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
-                        {(selectedToolType == 'Circle' || selectedToolType == 'PriceRange'|| selectedToolType == 'Callout') && (
-                          <div>
-                            <div className='p-2 flex'>
-                              background: <div 
-                                            className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[13px]'
-                                            style={{backgroundColor: selectBackgroundColor.hex}}
-                                            onClick={() => {setIsBackgroundcolor(!isBackgroundcolor); setIsTextcolor(false); setIsLinecolor(false)}}/>
-                            </div>
-                            <div>
-                              { isBackgroundcolor && (
-                                <div onMouseDown={preventDrag} ref={backgroundColorRef}> 
-                                  <ColorPicker color={selectBackgroundColor} onChange={setselectBackgroundColor} />
-                                </div>
-                              )}
-                            </div>
-                          </div>
-                        )}
                       </div>
+                      <hr />
                     </div>
-                    <hr />
-                  </div>
-                </Draggable>
-              )}
+                  </Draggable>
+                </div>
             </div>
             {/* -----main display */}
           </div>
