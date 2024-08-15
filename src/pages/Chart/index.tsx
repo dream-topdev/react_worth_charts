@@ -562,7 +562,7 @@ const Chart: FC = () => {
       setIsSearchModalOpen(false);
     }
   }
-
+  
   useEffect(() => {
     document.addEventListener('mousedown', draggableClickOutside);
     document.addEventListener('mousedown', timeFrameClickOutside);
@@ -1207,7 +1207,7 @@ const Chart: FC = () => {
                       </div>
                       <hr />
                       <div>
-                        <div className='p-2'>
+                        <div className={`${selectedToolType === 'Text' ? "hidden" : "block"} p-2`}>
                           <BaseSelect 
                             name='thickness'
                             label='thickness:'
@@ -1218,41 +1218,35 @@ const Chart: FC = () => {
                           />
                         </div>
                       </div>
-                      {(selectedToolType == "HorizontalLine" || selectedToolType == "VerticalLine") && (
-                      <div>
+                      <div className={`${(selectedToolType == "HorizontalLine" || selectedToolType == "VerticalLine") ? 'block' : 'hidden'}`}>
                         <hr />
                         <div className='p-2'>
                           move to:
-                            <div>
-                              {(selectedToolType == "HorizontalLine") && (
-                                <input 
-                                  type="text"
-                                  value={horizontalValue}
-                                  onChange={(e) => setHorizontalValue(e.target.value)}
-                                  onKeyDown={horizontalKeyDown}
-                                  className='p-2 border-[1px] w-full border-green-400 h-[34px] rounded-md'
-                                />
-                              )}
-                              {(selectedToolType == "VerticalLine") && (
-                                <div>
-                                  <DatePicker 
-                                    label='Date'
-                                    className='border border-gray-300 rounded-md w-full'
-                                    classNames={{
-                                      calendar: "bg-white border border-gray-300 ",
-                                    }}
-                                    onChange={(date) => {
-                                      const { year, month, day } = date;
-                                      const jsDate = new Date(year, month - 1, day);
-                                      verticalValueHandler(jsDate)
-                                    }}
-                                  />
-                                </div>
-                              )}
+                            <div className={`${selectedToolType == "HorizontalLine" ? 'block' : 'hidden'}`}>
+                              <input 
+                                type="text"
+                                value={horizontalValue}
+                                onChange={(e) => setHorizontalValue(e.target.value)}
+                                onKeyDown={horizontalKeyDown}
+                                className='p-2 border-[1px] w-full border-green-400 h-[34px] rounded-md'
+                              />
+                            </div>
+                            <div className={`${selectedToolType == "VerticalLine" ? 'block' : 'hidden'}`}>
+                              <DatePicker 
+                                label='Date'
+                                className='border border-gray-300 rounded-md w-full'
+                                classNames={{
+                                  calendar: "bg-white border border-gray-300 ",
+                                }}
+                                onChange={(date) => {
+                                  const { year, month, day } = date;
+                                  const jsDate = new Date(year, month - 1, day);
+                                  verticalValueHandler(jsDate)
+                                }}
+                              />
                             </div>
                         </div>
                       </div>
-                      )}
                       <hr />
                       <div>
                         <div className='p-2'>
@@ -1262,47 +1256,37 @@ const Chart: FC = () => {
                                     style={{backgroundColor: selectTextColor.hex}} 
                                     onClick={() => {setIsTextcolor(!isTextcolor); setIsLinecolor(false); setIsBackgroundcolor(false)}}/> 
                           </div>
-                          <div>
-                            { isTextcolor &&(
-                              <div onMouseDown={preventDrag} ref={textColorRef}> 
-                                <ColorPicker color={selectTextColor} onChange={setSelectTextColor} />
-                              </div>
-                            )}
+                          <div className={`${isTextcolor ? 'block' : 'hidden'}`}>
+                            <div onMouseDown={preventDrag} ref={textColorRef}> 
+                              <ColorPicker color={selectTextColor} onChange={setSelectTextColor} />
+                            </div>
                           </div>
-                          {(selectedToolType !== 'Text') && (
-                            <div>
-                              <div className='p-2 flex'>
-                                line: <div 
-                                        className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px]'
-                                        style={{backgroundColor: selectedLineColor.hex}}
-                                        onClick={() => {setIsLinecolor(!isLinecolor); setIsTextcolor(false);  setIsBackgroundcolor(false)}}/>
-                              </div>
-                              <div>
-                                { isLinecolor && (
-                                  <div onMouseDown={preventDrag} ref={lineColorRef}> 
-                                    <ColorPicker color={selectedLineColor} onChange={setSelectedLineColor} />
-                                  </div>
-                                )}
+                          <div className={`${selectedToolType !== 'Text' ? 'block' : 'hidden'}`}>
+                            <div className='p-2 flex'>
+                              line: <div 
+                                      className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px]'
+                                      style={{backgroundColor: selectedLineColor.hex}}
+                                      onClick={() => {setIsLinecolor(!isLinecolor); setIsTextcolor(false);  setIsBackgroundcolor(false)}}/>
+                            </div>
+                            <div className={`${isLinecolor ? 'block' : 'hidden'}`}>
+                              <div onMouseDown={preventDrag} ref={lineColorRef}> 
+                                <ColorPicker color={selectedLineColor} onChange={setSelectedLineColor} />
                               </div>
                             </div>
-                          )}
-                          {(selectedToolType == 'Circle' || selectedToolType == 'PriceRange'|| selectedToolType == 'Callout') && (
-                            <div>
-                              <div className='p-2 flex'>
-                                background: <div 
-                                              className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[13px]'
-                                              style={{backgroundColor: selectBackgroundColor.hex}}
-                                              onClick={() => {setIsBackgroundcolor(!isBackgroundcolor); setIsTextcolor(false); setIsLinecolor(false)}}/>
-                              </div>
-                              <div>
-                                { isBackgroundcolor && (
-                                  <div onMouseDown={preventDrag} ref={backgroundColorRef}> 
-                                    <ColorPicker color={selectBackgroundColor} onChange={setselectBackgroundColor} />
-                                  </div>
-                                )}
+                          </div>
+                          <div className={`${(selectedToolType == 'Circle' || selectedToolType == 'PriceRange'|| selectedToolType == 'Callout') ? 'block' : 'hidden'}`}>
+                            <div className='p-2 flex'>
+                              background: <div 
+                                            className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[13px]'
+                                            style={{backgroundColor: selectBackgroundColor.hex}}
+                                            onClick={() => {setIsBackgroundcolor(!isBackgroundcolor); setIsTextcolor(false); setIsLinecolor(false)}}/>
+                            </div>
+                            <div className={`${isBackgroundcolor ? 'block' : 'hidden'}`}>
+                              <div onMouseDown={preventDrag} ref={backgroundColorRef}> 
+                                <ColorPicker color={selectBackgroundColor} onChange={setselectBackgroundColor} />
                               </div>
                             </div>
-                          )}
+                          </div>
                         </div>
                       </div>
                       <hr />

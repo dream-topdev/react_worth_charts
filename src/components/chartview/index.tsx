@@ -323,7 +323,6 @@ export const ChartComponent = (props: any) => {
       chart.current
         .timeScale()
         .subscribeVisibleLogicalRangeChange(myVisibleLogicalRangeChangeHandler)
-
     }
 
     return () => {
