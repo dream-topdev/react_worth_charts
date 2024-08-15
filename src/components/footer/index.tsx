@@ -24,7 +24,7 @@ const Footer:FC = () => {
                         <Link to="/about" className="flex items-center font-mono">About</Link>
                         <Link to="/techmethod" className="flex items-center font-mono">Technique & Methodology</Link>
                         <Link to="/testimonials" className="flex items-center font-mono">Testimonials</Link>
-                        <BaseButton text="subscribe" className="mt-[33px] bg-green-700 h-[43px] w-[164px]  bg-color-brand-green border-color-brand-green border-2 font-mono text-xl hover:bg-green-700"/>
+                        <BaseButton text="subscribe" className="bg-green-700 mt-[33px] h-[43px] w-[164px]  bg-color-brand-green border-color-brand-green border-2 font-mono text-xl hover:bg-green-700"/>
                         {!session && (
                         <BaseButton
                             text="login"
