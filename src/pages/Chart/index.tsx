@@ -852,7 +852,7 @@ const Chart: FC = () => {
                   <div  className={`${isVisibleSelectDate? 'block' : 'hidden'} flex flex-col gap-1 absolute mt-12 bg-white border border-gray-300  z-[34]`}>
                     <div className="relative">
                       <div className='flex'>
-                        <div className='flex items-center p-[5px]'>
+                        <div className='flex items-center p-[5px] pl-[8px]'>
                           <DatePicker 
                             label="First"
                             className='border border-gray-300 rounded-md w-[140px]'
@@ -864,7 +864,7 @@ const Chart: FC = () => {
                         </div>
                       </div>
                       <div className='flex'>
-                        <div className='flex items-center p-[5px]'>
+                        <div className='flex items-center p-[5px] pl-[2px]'>
                           <DatePicker 
                             label="End"
                             className='ml-[5px] border border-gray-300 rounded-md w-[140px]'

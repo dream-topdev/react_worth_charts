@@ -47,12 +47,12 @@ const Header = () => {
       <div className=" flex gap-[12px] pr-[22px] pt-[24px]">
         <BaseButton
           text="subscribe"
-          className="h-[43px] w-[164px]  bg-color-brand-green border-color-brand-green border-2 font-mono text-xl"
+          className="h-[43px] w-[164px]  bg-green-700 border-color-brand-green border-2 font-mono text-xl hover:bg-green-700"
         />
         {!session && (
           <BaseButton
             text="login"
-            className="w-[114px]  h-[43px] bg-transparent border-color-brand-green border-2 font-mono text-xl"
+            className="w-[114px]  h-[43px] bg-transparent border-color-brand-green border-2 font-mono text-xl hover:bg-green-700"
             onClick={() => {
               navigate('/auth/login')
             }}
@@ -61,7 +61,7 @@ const Header = () => {
         {session && (
           <BaseButton
             text="logout"
-            className="w-[114px]  h-[43px] bg-transparent border-color-brand-green border-2 font-mono text-xl"
+            className="w-[114px]  h-[43px] bg-transparent border-color-brand-green border-2 font-mono text-xl hover:bg-green-700"
             onClick={() => {
               if (signOutHandler) {
                 signOutHandler()
