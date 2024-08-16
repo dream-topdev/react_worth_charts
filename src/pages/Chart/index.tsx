@@ -177,7 +177,7 @@ const Chart: FC = () => {
   useEffect(() => {
     const updateWidth = () => {
       if (templeWidthRef.current) {
-        setTempleWidth(templeWidthRef.current.offsetWidth);
+        setTempleWidth(templeWidthRef.current.offsetWidth - 47);
       }
     };
 
@@ -1028,9 +1028,9 @@ const Chart: FC = () => {
                 </div>
               </div>
               <div className='flex mt-[5px] ml-[3px] z-30 w-[300px]'>
-                  <div className='w-[70px] h-[37px] ml-[53px] mr-3 border rounded-md text-center align-center border-black pt-[7px]'>{bidPrice}</div>
+                  <div className='w-[70px] h-[37px] ml-[53px] mr-3 border bg-white rounded-md text-center align-center border-black pt-[7px]'>{bidPrice}</div>
                   <p className='pr-3 pt-3'>0.00</p>
-                  <div className='w-[70px] h-[37px] border rounded-md text-center pt-2 border-blue-500 text-blue-800'>{askPrice}</div>
+                  <div className='w-[70px] h-[37px] border rounded-md bg-white text-center pt-2 border-blue-500 text-blue-800'>{askPrice}</div>
               </div>
               <div className="flex flex-row gap-2 mt-3">
                 <p className='ml-[53px] text-base'>{`Vol`}</p>
@@ -1158,7 +1158,7 @@ const Chart: FC = () => {
                     </div>
                   </div> 
               {/* !!! */}
-              <div className='absolute inset-0  z-10'>
+              <div className='absolute inset-0  z-10 ml-[30px]'>
                 <ChartComponent
                   data={data}
                   volume={volume}
