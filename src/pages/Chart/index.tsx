@@ -760,7 +760,7 @@ const Chart: FC = () => {
                       className={`${isVisibleDaily? "block" : "hidden"} flex flex-col top-12 gap-1 absolute  mt-[130px]`} 
                     >
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '1D' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('1D')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -769,7 +769,7 @@ const Chart: FC = () => {
                         1D
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '5D' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('5D')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -778,7 +778,7 @@ const Chart: FC = () => {
                         5D
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '1W' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('1W')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -787,7 +787,7 @@ const Chart: FC = () => {
                         1W
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '1M' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('1M')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -796,7 +796,7 @@ const Chart: FC = () => {
                         1M
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '3M' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('3M')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -805,7 +805,7 @@ const Chart: FC = () => {
                         3M
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '6M' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('6M')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -814,7 +814,7 @@ const Chart: FC = () => {
                         6M
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '1Y' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('1Y')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -823,7 +823,7 @@ const Chart: FC = () => {
                         1Y
                       </button>
                       <button
-                        className="w-24 bg-[#f9f9f9] text-red-600 rounded-md"
+                        className={`${interval == '5Y' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
                         onClick={() => {
                           setInterval('5Y')
                           setIsVisibleDaily(!isVisibleDaily)
@@ -919,7 +919,7 @@ const Chart: FC = () => {
                   >
                     {indicators.map((value, index) => {
                       const buttonColor = indicatorArray.includes(value)
-                        ? 'bg-gray4'
+                        ? 'bg-gray-300'
                         : `bg-[#f9f9f9]`
 
                       return (
