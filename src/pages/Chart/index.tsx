@@ -100,8 +100,8 @@ const Chart: FC = () => {
   const [keywords, setKeywords] = useState<string>('APPLE');
   const [suggestionList, setSuggestionList ] = useState<any>([]); 
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [startDate1, setStartDate1] = useState<Date | null>(new Date());
-  const [startDate2, setStartDate2] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<Date | null>(new Date());
+  const [endDate, setEndDate] = useState<Date | null>(new Date());
   const [showCalendar1, setShowCalendar1] = useState(false);
   const [showCalendar2, setShowCalendar2] = useState(false);
   const [start, setStart] = useState(null);
@@ -589,13 +589,13 @@ const Chart: FC = () => {
   const handleStartDate = (date ) => {
     const { year, month, day } = date;
     const jsDate = new Date(year, month - 1, day);
-    setStartDate1(jsDate);
+    setStartDate(jsDate);
   }
 
   const handleEndDate = (date) => {
     const { year, month, day } = date;
     const jsDate = new Date(year, month - 1, day);
-    setStartDate2(date);
+    setEndDate(jsDate);
   }
 
   const loadingHandler = (value) => {
@@ -877,23 +877,33 @@ const Chart: FC = () => {
                       </div>
                     </div>
                     <button onClick={() => {
-                        if(startDate1 !== null || startDate2 !== null) {
+                        if(startDate !== null || endDate !== null) {
                             if(interval === '15min' || interval === '30min' || interval === '60min') {
                               alert('Not support function!')
                               return;
                             }
-                            if(startDate1 >= startDate2) {
+                            if(startDate >= endDate) {
                               alert('error! start should be before that end date');
                               return;
                             }
                           }
-                          setStart(startDate1);
-                          setEnd(startDate2);
+                          setStart(startDate);
+                          setEnd(endDate);
                           setIsVisibleSelectDate(false)
                         }}
                         className='p-[5px] m-[5px] bg-gray-400 hover:bg-gray-200'
                     >
                       submit
+                    </button>
+                    <button
+                      className='p-[5px] m-[5px] bg-gray-400 hover:bg-gray-200'
+                      onClick={() => {
+                        setStart(null);
+                        setEnd(null);
+                        setIsVisibleSelectDate(false)
+                      }}
+                    >
+                      cancel
                     </button>
                   </div>
                 </div>
