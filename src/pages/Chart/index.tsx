@@ -967,7 +967,7 @@ const Chart: FC = () => {
                 className={`ml-auto mr-[10px] p-[7px] text-center text-[20px] h-[39px] border border-gray-500 rounded-[12px] mt-[5px] pt-[2px] ${isStockBtn ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
                 onClick={() => {setIsStockBtn(!isStockBtn)}}
               >
-                Stock
+                watchlist
               </div>
             </div>
             {/* ------ header bar */}
