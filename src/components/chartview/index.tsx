@@ -408,7 +408,7 @@ export const ChartComponent = (props: any) => {
       })
     }
   }, [selectedLineText])
- 
+
   useEffect(() => {
     if(selectedLine !== '[]' && selectedLine && selectedToolType !== null) {
       let selectedLineTextJSON = JSON.parse(selectedLine)

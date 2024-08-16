@@ -61,10 +61,10 @@ import {
       },
       line: {
         color: 'rgba(74,144,226,1)',
-        width: 2,
+        width: "2",
         style: 0,
         end: {
-          left: 2,
+          left: 1,
           right: 0,
         },
         extend: {
