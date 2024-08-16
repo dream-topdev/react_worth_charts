@@ -100,8 +100,8 @@ const Chart: FC = () => {
   const [keywords, setKeywords] = useState<string>('APPLE');
   const [suggestionList, setSuggestionList ] = useState<any>([]); 
   const [selectedIndex, setSelectedIndex] = useState(null);
-  const [startDate, setStartDate] = useState<Date | null>(new Date());
-  const [endDate, setEndDate] = useState<Date | null>(new Date());
+  const [startDate, setStartDate] = useState<any>(null);
+  const [endDate, setEndDate] = useState<any>(null);
   const [showCalendar1, setShowCalendar1] = useState(false);
   const [showCalendar2, setShowCalendar2] = useState(false);
   const [start, setStart] = useState(null);
@@ -586,9 +586,10 @@ const Chart: FC = () => {
     };
   }, []);
 
-  const handleStartDate = (date ) => {
+  const handleStartDate = (date) => {
     const { year, month, day } = date;
     const jsDate = new Date(year, month - 1, day);
+
     setStartDate(jsDate);
   }
 
@@ -859,7 +860,9 @@ const Chart: FC = () => {
                             classNames={{
                               calendar: "bg-white border border-gray-300 ",
                             }}
-                            onChange={handleStartDate}
+                            onChange={(newValue) => {
+                              handleStartDate(newValue);
+                            }}
                           />  
                         </div>
                       </div>
@@ -871,22 +874,21 @@ const Chart: FC = () => {
                             classNames={{
                               calendar: "bg-white border border-gray-300 ",
                             }}
-                            onChange={handleEndDate}
+                            onChange={(newValue) => {
+                              handleEndDate(newValue);
+                            }}
                           />  
                         </div>
                       </div>
                     </div>
                     <button onClick={() => {
-                        if(startDate !== null || endDate !== null) {
-                            if(interval === '15min' || interval === '30min' || interval === '60min') {
-                              alert('Not support function!')
-                              return;
-                            }
-                            if(startDate >= endDate) {
-                              alert('error! start should be before that end date');
-                              return;
-                            }
+                        if(startDate !== null && endDate !== null) {
+                          if(startDate >= endDate) {
+                            alert('error! start should be before that end date');
+                            setIsVisibleSelectDate(false)
+                            return;
                           }
+                        }
                           setStart(startDate);
                           setEnd(endDate);
                           setIsVisibleSelectDate(false)

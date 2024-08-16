@@ -2,24 +2,20 @@ import { fetchData } from './fetchData'
 import { getTimeStamp } from '../utils/getTimeStamp'
 
 export const fetchStockData = async (symbol: string, interval: string, start: Date, end:Date) => {
-  if(end === null) {
-    end = new Date()
+
+  if (start === null ) {
+    start = new Date("Sat Dec 03 1999 00:00:00 GMT-0400")
+  } 
+
+  if (end === null) {
+    end = new Date();
   }
 
-  if(start === null) {
-    start = new Date('1999-01-02');
-  }
-
-  function formatDate(date) {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0'); 
-    const day = String(date.getDate()).padStart(2, '0'); 
-    return `${year}-${month}-${day}`;
-  }
-  const startDate = formatDate(new Date(start))
-  const endDate = formatDate(new Date(end))
+  const startDate = start.toISOString().split('T')[0];
+  const endDate = end.toISOString().split('T')[0];
 
   const rawData = await fetchData(symbol, interval)
+
   const result = {};
   for (const date in rawData ) {
     if (date >= startDate && date <=endDate) {
