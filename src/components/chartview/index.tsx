@@ -213,7 +213,7 @@ export const ChartComponent = (props: any) => {
             bottom: 0,
           },
         },
-        width: templeWidth -17,
+        width: templeWidth,
         height: templeHeight,
       })
 
@@ -292,7 +292,7 @@ export const ChartComponent = (props: any) => {
             bottom: 0,
           },
         },
-        width: templeWidth -17,
+        width: templeWidth,
         height: templeHeight,
       })
       
@@ -408,7 +408,7 @@ export const ChartComponent = (props: any) => {
       })
     }
   }, [selectedLineText])
- 
+
   useEffect(() => {
     if(selectedLine !== '[]' && selectedLine && selectedToolType !== null) {
       let selectedLineTextJSON = JSON.parse(selectedLine)

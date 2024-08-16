@@ -42,7 +42,7 @@ export const CalloutOptionDefaults: CalloutToolOptions = {
 		end: { left: LineEnd.Arrow, right: LineEnd.Normal },
 	},
 	text: {
-		value: 'this is some text',
+		value: '',
 		padding: 0,
 		wordWrapWidth: 150,
 		forceTextAlign: false,
@@ -81,8 +81,8 @@ export const CalloutOptionDefaults: CalloutToolOptions = {
 			},
 			border: {
 				color: 'rgba(74,144,226,1)',
-				width: 4,
-				radius: 20,
+				width: 2,
+				radius: 10,
 				highlight: false,
 				style: 0,
 			},
