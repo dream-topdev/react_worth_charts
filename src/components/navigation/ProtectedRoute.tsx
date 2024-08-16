@@ -102,7 +102,7 @@ const ProtectedRoute: FC = () => {
                   to="/techmethod"
                   className="flex w-[323px]  h-[72px] border-b-[1px] border-white pt-[20px] pl-[36px] text-[20px] font-semibold"
                 >
-                  Technology & Method
+                  Technique & Methodology
                 </Link>
                 <br />
                 <Link
@@ -116,7 +116,7 @@ const ProtectedRoute: FC = () => {
                   to="/contact"
                   className="flex w-[323px]  h-[72px] border-b-[1px] border-white pt-[20px] pl-[36px] text-[20px] font-semibold"
                 >
-                  Contact
+                  Contact Us
                 </Link>
               </div> : (
                   <div ref={sidebarRef} className={`fixed top-0 left-0 h-full bg-black text-white transform ${Toggled ? 'translate-x-0' : '-translate-x-full'} transition-transform duration-300 ease-in-out z-50`}
