@@ -969,7 +969,7 @@ const Chart: FC = () => {
                     <div className="rounded-full w-[8.91px] h-[8.91px] bg-[#089981]" ></div>
                   </div>
                   <div className="flex-1 flex justify-center bg-[#F57C00] bg-opacity-15 items-center relative bg-gradient-to-r from-lightyellow to-yellow-200 ">
-                    <span className="text-[#F57C00] font-bold pt-[2.5px]" >D</span>
+                    <span className="text-[#F57C00] font-bold" >D</span>
                   </div>
                 </div>
                 <div className='flex mt-[3px] text-sm'>
