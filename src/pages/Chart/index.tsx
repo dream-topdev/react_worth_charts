@@ -1043,10 +1043,11 @@ const Chart: FC = () => {
     
             {/* main display ----- */}
             <div className='flex relative visible'>
-              <div className="z-[40]" >
+              {/* <div className="z-[40]" >
                 <img src={isToolbarSelect ? selectedtoolSvg : toolSvg} alt="tool" onClick={() => setIsToolbarSelect(!isToolbarSelect)} className={`w-[45px] h-auto ml-[10px] p-[3px] border border-black rounded-[8px] ${isToolbarSelect ? "bg-gray-300" : "bg-white"}`}/>
-              </div>
-                  <div className={`w-[52px] bg-white pt-[3px] pb-4 absolute top-[50px] left-[7px]  z-20 border-[2px] border-grey ${isToolbarSelect? 'block' : 'hidden'}`}>
+              </div> */}
+                  {/* <div className={`w-[52px] bg-white pt-[3px] pb-4 absolute top-[50px] left-[7px]  z-20 border-[2px] border-grey ${isToolbarSelect? 'block' : 'hidden'}`}> */}
+                  <div className={`w-[52px] bg-white pt-[3px] pb-4 absolute z-20 border-[2px] border-grey `}>
                     <div>
                       <img
                         src={editType == 'arrow' ? ArrowSelectedSvg : ArrowSvg}
