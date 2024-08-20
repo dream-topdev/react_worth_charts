@@ -20,6 +20,7 @@ export const fetchStockData = async (symbol: string, interval: string, start: Da
           prevDate = currentDate;
           newData[date] = rawData[date];
         }
+        
         break;
       case '5D':
         let fiveprevDate = null;

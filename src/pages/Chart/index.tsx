@@ -1206,7 +1206,7 @@ const Chart: FC = () => {
                         <CloseIcon onClick={modalcloseHandler} className='float-right text-xl' />
                       </div>
                       <br /><hr />
-                      <div>
+                      <div className={`${selectedToolType === "Callout" ? "hidden" : "block"}`}>
                         <div className='p-2'>
                           <BaseInput
                             name="text"
@@ -1265,7 +1265,7 @@ const Chart: FC = () => {
                       <div>
                         <div className='p-2'>
                           color
-                          <div className='p-2 flex'>
+                          <div className={`${selectedToolType === "Callout" ? 'hidden' : "block"} p-2 flex`}>
                           text: <div className="w-[20px] h-[20px] rounded-md ml-[73px]"
                                     style={{backgroundColor: selectTextColor.hex}} 
                                     onClick={() => {setIsTextcolor(!isTextcolor); setIsLinecolor(false); setIsBackgroundcolor(false)}}/> 
@@ -1289,7 +1289,7 @@ const Chart: FC = () => {
                             </div>
                           </div>
                           <div className={`${(selectedToolType == 'Circle' || selectedToolType == 'PriceRange'|| selectedToolType == 'Callout') ? 'block' : 'hidden'}`}>
-                            <div className='p-2 flex'>
+                            <div className={`${selectedToolType === "Callout" ? 'hidden' : "block"} p-2 flex`}>
                               background: <div 
                                             className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[13px]'
                                             style={{backgroundColor: selectBackgroundColor.hex}}
