@@ -176,7 +176,7 @@ const Chart: FC = () => {
   useEffect(() => {
     const updateWidth = () => {
       if (templeWidthRef.current) {
-        setTempleWidth(templeWidthRef.current.offsetWidth - 47);
+        setTempleWidth(templeWidthRef.current.offsetWidth - 62);
       }
     };
 
@@ -1160,7 +1160,7 @@ const Chart: FC = () => {
                     </div>
                   </div> 
               {/* !!! */}
-              <div className='absolute inset-0  z-10 ml-[30px]'>
+              <div className='absolute inset-0  z-10 ml-[45px]'>
                 <ChartComponent
                   data={data}
                   volume={volume}

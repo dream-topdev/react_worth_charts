@@ -115,7 +115,7 @@ export const ChartComponent = (props: any) => {
           borderVisible: false,
           scaleMargins: {
             top: 0.1,
-            bottom: 0,
+            bottom: 0.1,
           },
         },
         width: templeWidth,
@@ -151,7 +151,7 @@ export const ChartComponent = (props: any) => {
       volumeSeries.setData(volume)
       
       chart.current.timeScale().setVisibleLogicalRange({
-        from: data.length - 70,
+        from: data.length - 50,
         to: data.length,
       })
       
