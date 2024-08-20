@@ -64,8 +64,8 @@ import {
         width: "2",
         style: 0,
         end: {
-          left: 1,
-          right: 0,
+          left: 0,
+          right: 1,
         },
         extend: {
           right: false,
