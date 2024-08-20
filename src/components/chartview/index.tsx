@@ -335,7 +335,7 @@ export const ChartComponent = (props: any) => {
     }
 
     const handleKeyDown = (event) => {
-      if(event.keyCode === 8) {
+      if(event.code === 'Delete') {
         handleDeleteKeyPressed();
       }
     }
