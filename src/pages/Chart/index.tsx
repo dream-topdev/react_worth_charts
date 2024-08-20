@@ -71,7 +71,6 @@ const Chart: FC = () => {
   const [tempPoint, setTempPoint] = useState<Point | null>(null)
   const [symbol, setSymbol] = useState('AAPL')
   const [interval, setInterval] = useState('1D')
-  const [importLines, setImportLines] = useState<string>('')
   const [isVisibleDaily, setIsVisibleDaily] = useState<boolean>(false)
   const [isVisibleSelectDate, setIsVisibleSelectDate] = useState<boolean>(false)
   const [companyData, setCompanyData] = useState<string>('')
@@ -1176,7 +1175,6 @@ const Chart: FC = () => {
                   magnet={magnet}
                   handleTemplePoint={handleTemplePoint}
                   handleCrosshairMove={handleCrosshairMove}
-                  importLines={importLines}
                   handleSelectedLine={handleSelectedLine}
                   selectedLine={selectedLine}
                   selectedLineText={selectedLineText}

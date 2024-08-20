@@ -44,10 +44,6 @@ export const ChartComponent = (props: any) => {
     handleTemplePoint,
     magnet,
     handleCrosshairMove,
-    save,
-    handleExportData,
-    lineSeries,
-    importLines,
     handleSelectedLine,
     selectedLine,
     selectedLineText,
@@ -114,7 +110,7 @@ export const ChartComponent = (props: any) => {
         },
         rightPriceScale: {
           visible: true,
-          autoScale: true,
+          autoScale:false,
           minimize: false,
           borderVisible: false,
           scaleMargins: {
@@ -155,9 +151,10 @@ export const ChartComponent = (props: any) => {
       volumeSeries.setData(volume)
       
       chart.current.timeScale().setVisibleLogicalRange({
-        from: data.length - 50,
+        from: data.length - 70,
         to: data.length,
       })
+      
       chart.current.subscribeClick(getPointInformation)
       chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
       chart.current
@@ -192,7 +189,7 @@ export const ChartComponent = (props: any) => {
         },
         rightPriceScale: {
           visible: true,
-          autoScale: true,
+          autoScale: false,
           minimize: false,
           borderVisible: false,
           mode: PriceScaleMode.Percentage,
@@ -227,6 +224,7 @@ export const ChartComponent = (props: any) => {
         from: addData.length - 50,
         to: addData.length,
       })
+
       chart.current.subscribeClick(getPointInformation)
       chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
       chart.current
@@ -347,8 +345,6 @@ export const ChartComponent = (props: any) => {
   }
   
   },[selectedLine])
- 
-
 
   useEffect(() => {
     const fetchWrapper = async () => {
@@ -671,11 +667,6 @@ export const ChartComponent = (props: any) => {
       chart.current?.removeAllLineTools();
     }
   },[isAllDelete])
-
-  // useEffect(() => {
-  //   chart.current?.importLineTools(importLines)
-  //   chart.current?.timeScale().fitContent()
-  // }, [importLines])
 
   return (
     <div ref={chartContainerRef} />
