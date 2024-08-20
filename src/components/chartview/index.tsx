@@ -87,97 +87,6 @@ export const ChartComponent = (props: any) => {
   const width = useWindowWidth()
   const existingSeries = useRef({});
   
-  const getPointInformation = (param: MouseEventParams) => {
-    if (!param.point) {
-      return
-    }
-   
-    handleSelectedLine(chart.current?.getSelectedLineTools())
-    
-    const pointPrice = candleStickSeries.current?.coordinateToPrice(
-      param.point.y
-    )
-    handleTemplePoint({
-      price: pointPrice,
-      timestamp: param.time,
-    })
-  }
-
-  const myCrosshairMoveHandler = (param: MouseEventParams) => {
-    if (!param.point) {
-      return
-    }
-    handleCrosshairMove(param.time)
-  }
-
-  const myVisibleLogicalRangeChangeHandler = (newVisibleLogicalRange: any) => {
-    if (newVisibleLogicalRange === null) {
-      return
-    }
-  }
-
-  useEffect(() => {
-    if (editType === 'trendline') {
-      chart.current?.addLineTool('TrendLine', [], trendLineOption)
-    }
-    if (editType === 'PriceRange') {
-      chart.current?.addLineTool('PriceRange', [], priceRangeOption)
-    }
-    if(editType === "Circle") {
-      chart.current?.addLineTool('Circle', [], circleOption)
-    }
-    if(editType === "callout") {
-      chart.current?.addLineTool('Callout', [], calloutOption)
-    }
-  }, [editType])
-
-  useEffect(() => {
-    chart.current?.applyOptions({
-      width: templeWidth,
-    })
-  }, [templeWidth])
-
-  useEffect(() => {
-    chart.current?.applyOptions({
-      height: templeHeight,
-    })
-  }, [templeHeight])
-
-  useEffect(() => {
-    const options = chart.current?.options()
-    const crosshair = options?.crosshair
-    if (magnet) {
-      const newCrosshair = { ...crosshair, magnetThreshold: 40 }
-      const newOptions = { ...options, crosshair: newCrosshair }
-      chart.current?.applyOptions(newOptions)
-    } else {
-      const newCrosshair = { ...crosshair, magnetThreshold: 0 }
-      const newOptions = { ...options, crosshair: newCrosshair }
-      chart.current?.applyOptions(newOptions)
-    }
-  }, [magnet])
-
-   useEffect(() => {
-    const handleDeleteKeyPressed = () => {
-      if(selectedLine !== " ") {
-        chart.current?.removeSelectedLineTools()
-      }
-    }
-
-    const handleKeyDown = (event) => {
-      if(event.key === 'Delete') {
-        handleDeleteKeyPressed();
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-
-    return () => {
-      document.removeEventListener('keydown',handleKeyDown);
-    }
-    
-   },[selectedLine])
- 
   useEffect(() => {
     if(!isAddStock) {
       chart.current = createChart(chartContainerRef.current, {
@@ -242,7 +151,7 @@ export const ChartComponent = (props: any) => {
           bottom: 0,
         },
       })
-  
+     
       volumeSeries.setData(volume)
       
       chart.current.timeScale().setVisibleLogicalRange({
@@ -347,6 +256,99 @@ export const ChartComponent = (props: any) => {
     addVolume,
     isAddStock
   ])
+
+  const getPointInformation = (param: MouseEventParams) => {
+    if (!param.point) {
+      return
+    }
+   
+    handleSelectedLine(chart.current?.getSelectedLineTools())
+    
+    const pointPrice = candleStickSeries.current?.coordinateToPrice(
+      param.point.y
+    )
+    handleTemplePoint({
+      price: pointPrice,
+      timestamp: param.time,
+    })
+  }
+
+  const myCrosshairMoveHandler = (param: MouseEventParams) => {
+    if (!param.point) {
+      return
+    }
+    handleCrosshairMove(param.time)
+  }
+
+  const myVisibleLogicalRangeChangeHandler = (newVisibleLogicalRange: any) => {
+    if (newVisibleLogicalRange === null) {
+      return
+    }
+  }
+
+  useEffect(() => {
+    if (editType === 'trendline') {
+      chart.current?.addLineTool('TrendLine', [], trendLineOption)
+    }
+    if (editType === 'PriceRange') {
+      chart.current?.addLineTool('PriceRange', [], priceRangeOption)
+    }
+    if(editType === "Circle") {
+      chart.current?.addLineTool('Circle', [], circleOption)
+    }
+    if(editType === "callout") {
+      chart.current?.addLineTool('Callout', [], calloutOption)
+    }
+  }, [editType])
+
+  useEffect(() => {
+    chart.current?.applyOptions({
+      width: templeWidth,
+    })
+  }, [templeWidth])
+
+  useEffect(() => {
+    chart.current?.applyOptions({
+      height: templeHeight,
+    })
+  }, [templeHeight])
+
+  useEffect(() => {
+    const options = chart.current?.options()
+    const crosshair = options?.crosshair
+    if (magnet) {
+      const newCrosshair = { ...crosshair, magnetThreshold: 40 }
+      const newOptions = { ...options, crosshair: newCrosshair }
+      chart.current?.applyOptions(newOptions)
+    } else {
+      const newCrosshair = { ...crosshair, magnetThreshold: 0 }
+      const newOptions = { ...options, crosshair: newCrosshair }
+      chart.current?.applyOptions(newOptions)
+    }
+  }, [magnet])
+
+  useEffect(() => {
+    const handleDeleteKeyPressed = () => {
+      if(selectedLine !== " ") {
+        chart.current?.removeSelectedLineTools()
+      }
+    }
+
+    const handleKeyDown = (event) => {
+      if(event.key === 'Delete') {
+        handleDeleteKeyPressed();
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown);
+
+  return () => {
+    document.removeEventListener('keydown',handleKeyDown);
+  }
+  
+  },[selectedLine])
+ 
+
 
   useEffect(() => {
     const fetchWrapper = async () => {
@@ -670,10 +672,10 @@ export const ChartComponent = (props: any) => {
     }
   },[isAllDelete])
 
-  useEffect(() => {
-    chart.current?.importLineTools(importLines)
-    chart.current?.timeScale().fitContent()
-  }, [importLines])
+  // useEffect(() => {
+  //   chart.current?.importLineTools(importLines)
+  //   chart.current?.timeScale().fitContent()
+  // }, [importLines])
 
   return (
     <div ref={chartContainerRef} />

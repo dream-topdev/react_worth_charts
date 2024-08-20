@@ -741,14 +741,14 @@ const Chart: FC = () => {
                 <div className='z-[40] flex' ref={timeFrameRef}>
                   <p
                     className={
-                      ['1D','5D','1W', '1M','3M','6M','1Y','5Y'].includes(interval)
+                      ['1D','5D', '1M','3M','6M','1Y','5Y','All'].includes(interval)
                         ? 'flex justify-center items-center w-[40px] cursor-pointer hover:bg-gray5 text-blue-700 ml-[10px]'
                         : 'flex justify-center items-center w-[40px] cursor-pointer hover:bg-gray5  ml-[10px]'
                     }
                     onClick={() => setIsVisibleDaily(!isVisibleDaily)}
                   >
-                    {['1D','5D','1W', '1M','3M','6M','1Y','5Y'].includes(interval)
-                      ? interval.slice(0, 2).toUpperCase()
+                    {['1D','5D', '1M','3M','6M','1Y','5Y','All'].includes(interval)
+                      ? interval.slice(0, 3).toUpperCase()
                       : '1D'}
                     <img
                       src={IntervalSvg}
@@ -777,15 +777,6 @@ const Chart: FC = () => {
                         }}
                       >
                         5D
-                      </button>
-                      <button
-                        className={`${interval == '1W' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
-                        onClick={() => {
-                          setInterval('1W')
-                          setIsVisibleDaily(!isVisibleDaily)
-                        }}
-                      >
-                        1W
                       </button>
                       <button
                         className={`${interval == '1M' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
@@ -831,6 +822,15 @@ const Chart: FC = () => {
                         }}
                       >
                         5Y
+                      </button>
+                      <button
+                        className={`${interval == 'All' && "bg-gray-300"} hover:bg-gray-300 w-24 bg-[#f9f9f9] text-red-600 rounded-md`}
+                        onClick={() => {
+                          setInterval('All')
+                          setIsVisibleDaily(!isVisibleDaily)
+                        }}
+                      >
+                        All
                       </button>
                     </div>
                 </div>
@@ -882,6 +882,9 @@ const Chart: FC = () => {
                       </div>
                     </div>
                     <button onClick={() => {
+                        if(interval == '1D') {
+                          alert('error! not support this function')
+                        }
                         if(startDate !== null && endDate !== null) {
                           if(startDate >= endDate) {
                             alert('error! start should be before that end date');
