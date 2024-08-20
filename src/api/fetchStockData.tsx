@@ -6,7 +6,7 @@ export const fetchStockData = async (symbol: string, interval: string, start: Da
   const rawData = await fetchData(symbol, interval);
 
   let newData = {};
-
+  
   if(start === null && end === null) {
     switch(interval) {
       case '1D':
@@ -123,7 +123,7 @@ export const fetchStockData = async (symbol: string, interval: string, start: Da
       }
       
   }
-
+  
   const stockDataSeries = Object.entries(newData)
     .map(data => {
       const stockData = {

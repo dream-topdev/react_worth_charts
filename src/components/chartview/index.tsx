@@ -44,10 +44,6 @@ export const ChartComponent = (props: any) => {
     handleTemplePoint,
     magnet,
     handleCrosshairMove,
-    save,
-    handleExportData,
-    lineSeries,
-    importLines,
     handleSelectedLine,
     selectedLine,
     selectedLineText,
@@ -114,12 +110,12 @@ export const ChartComponent = (props: any) => {
         },
         rightPriceScale: {
           visible: true,
-          autoScale: true,
+          autoScale:false,
           minimize: false,
           borderVisible: false,
           scaleMargins: {
             top: 0.1,
-            bottom: 0,
+            bottom: 0.1,
           },
         },
         width: templeWidth,
@@ -158,6 +154,7 @@ export const ChartComponent = (props: any) => {
         from: data.length - 50,
         to: data.length,
       })
+      
       chart.current.subscribeClick(getPointInformation)
       chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
       chart.current
@@ -192,7 +189,7 @@ export const ChartComponent = (props: any) => {
         },
         rightPriceScale: {
           visible: true,
-          autoScale: true,
+          autoScale: false,
           minimize: false,
           borderVisible: false,
           mode: PriceScaleMode.Percentage,
@@ -227,6 +224,7 @@ export const ChartComponent = (props: any) => {
         from: addData.length - 50,
         to: addData.length,
       })
+
       chart.current.subscribeClick(getPointInformation)
       chart.current.subscribeCrosshairMove(myCrosshairMoveHandler)
       chart.current
@@ -335,7 +333,7 @@ export const ChartComponent = (props: any) => {
     }
 
     const handleKeyDown = (event) => {
-      if(event.keyCode === 8) {
+      if(event.code === 'Delete') {
         handleDeleteKeyPressed();
       }
     }
@@ -347,8 +345,6 @@ export const ChartComponent = (props: any) => {
   }
   
   },[selectedLine])
- 
-
 
   useEffect(() => {
     const fetchWrapper = async () => {
@@ -671,11 +667,6 @@ export const ChartComponent = (props: any) => {
       chart.current?.removeAllLineTools();
     }
   },[isAllDelete])
-
-  // useEffect(() => {
-  //   chart.current?.importLineTools(importLines)
-  //   chart.current?.timeScale().fitContent()
-  // }, [importLines])
 
   return (
     <div ref={chartContainerRef} />
