@@ -333,6 +333,7 @@ export const ChartComponent = (props: any) => {
     }
 
     const handleKeyDown = (event) => {
+      console.log(event.code)
       if(event.code === 'Delete') {
         handleDeleteKeyPressed();
       }
