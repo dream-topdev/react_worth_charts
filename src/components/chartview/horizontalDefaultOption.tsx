@@ -10,7 +10,7 @@ export const horizontalLineDefaultOption = {
     alignment: TextAlignment.Left,
     font: {
       color: '#000000',
-      size: 14,
+      size: 16,
       bold: false,
       italic: false,
       family: 'Arial',
@@ -18,7 +18,7 @@ export const horizontalLineDefaultOption = {
     box: {
       alignment: {
         vertical: BoxVerticalAlignment.Top,
-        horizontal: BoxHorizontalAlignment.Left,
+        horizontal: BoxHorizontalAlignment.Center,
       },
       angle: 0,
       scale: 1,
@@ -28,7 +28,7 @@ export const horizontalLineDefaultOption = {
       },
       padding: {
         x: 0,
-        y: 0,
+        y: 10,
       },
       maxHeight: 100,
       shadow: {

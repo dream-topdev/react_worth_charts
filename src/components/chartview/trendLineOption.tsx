@@ -10,24 +10,24 @@ import {
         alignment: TextAlignment.Left,
         font: {
           color: '#000000',
-          size: 14,
+          size: 16,
           bold: false,
           italic: false,
           family: 'Arial',
         },
         box: {
           alignment: {
-            vertical: BoxVerticalAlignment.Bottom,
+            vertical: BoxVerticalAlignment.Top,
             horizontal: BoxHorizontalAlignment.Center,
           },
           angle: 0,
           scale: 1,
           offset: {
             x: 0,
-            y: 20,
+            y: 0,
           },
           padding: {
-            x: 0,
+            x: 10,
             y: 0,
           },
           maxHeight: 100,

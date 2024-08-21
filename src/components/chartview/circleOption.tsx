@@ -10,7 +10,7 @@ import {
         alignment: TextAlignment.Center,
         font: {
           color: '#000000',
-          size: 15,
+          size: 16,
           bold: false,
           italic: false,
           family: 'Arial',
