@@ -122,7 +122,6 @@ const Chart: FC = () => {
   const selectDataRef = useRef(null)
   const draggableRef = useRef(null)
   const timeFrameRef = useRef(null)
-  const indicatorRef = useRef(null)
   const textColorRef = useRef(null)
   const lineColorRef = useRef(null)
   const searchModalRef = useRef(null)
@@ -526,11 +525,6 @@ const Chart: FC = () => {
     }
   }
 
-  const indicatorClickOutside = (event) => {
-    if(indicatorRef.current && !indicatorRef.current.contains(event.target)) {
-      setIsVisibleIndicator(false);
-    }
-  }
 
   const textcolorClickOutside = (event) => {
     if(textColorRef.current && !textColorRef.current.contains(event.target)) {
@@ -565,7 +559,6 @@ const Chart: FC = () => {
   useEffect(() => {
     document.addEventListener('mousedown', draggableClickOutside);
     document.addEventListener('mousedown', timeFrameClickOutside);
-    document.addEventListener('mousedown', indicatorClickOutside);
     document.addEventListener('mousedown', textcolorClickOutside);
     document.addEventListener('mousedown', linecolorClickOutside);
     document.addEventListener('mousedown', backgroundcolorClickOutside);
@@ -575,7 +568,6 @@ const Chart: FC = () => {
     return () => {
       document.removeEventListener('mousedown', draggableClickOutside);
       document.removeEventListener('mousedown', timeFrameClickOutside);
-      document.removeEventListener('mousedown', indicatorClickOutside);
       document.removeEventListener('mousedown', textcolorClickOutside);
       document.removeEventListener('mousedown', linecolorClickOutside);
       document.removeEventListener('mousedown', backgroundcolorClickOutside);
@@ -911,43 +903,6 @@ const Chart: FC = () => {
                     </button>
                   </div>
                 </div>
-                <div className="w-2 border-r-2 border-b-gray-800" />
-                <div className='flex' ref={indicatorRef}>
-                  <div 
-                    className='flex cursor-pointer hover:bg-gray5'
-                    onClick={() => {
-                      setIsVisibleIndicator(!isVisibleIndicator)
-                    }}
-                  >
-                    <img
-                      src={SettingsSvg}
-                      alt="settings"
-                    />
-                    <img
-                      src={IntervalSvg}
-                      alt=''
-                    />
-                  </div>
-                  <div 
-                    className={`${isVisibleIndicator ? "block" : "hidden"} flex flex-col gap-1 z-[14] absolute mt-[49px] ml-[-20px]`}
-                  >
-                    {indicators.map((value, index) => {
-                      const buttonColor = indicatorArray.includes(value)
-                        ? 'bg-gray-300'
-                        : `bg-[#f9f9f9]`
-
-                      return (
-                        <button
-                          className={`w-24 ${buttonColor} text-red-600 rounded-md hover:bg-gray-300`}
-                          onClick={() => {indicatorButtonSelect(value); setIsVisibleIndicator(!isVisibleIndicator)}}
-                          key={index}
-                        >
-                          {value}
-                        </button>
-                      )
-                    })}
-                  </div>
-                </div>
                 <div 
                   className={`w-1 border-r-2 border-b-gray-800 `}
                 />
@@ -969,7 +924,7 @@ const Chart: FC = () => {
                 className={`ml-auto mr-[10px] p-[7px] text-center text-[20px] h-[39px] border border-gray-500 rounded-[12px] mt-[5px] pt-[2px] ${isStockBtn ? 'bg-gray-500 text-white' : 'bg-gray-200'}`}
                 onClick={() => {setIsStockBtn(!isStockBtn)}}
               >
-                watchlist
+                Compare List
               </div>
             </div>
             {/* ------ header bar */}

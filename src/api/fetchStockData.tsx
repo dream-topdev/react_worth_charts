@@ -4,11 +4,10 @@ import { getTimeStamp } from '../utils/getTimeStamp'
 export const fetchStockData = async (symbol: string, interval: string, start: Date, end:Date) => {
   
   const rawData = await fetchData(symbol, interval);
-
   let newData = {};
   
   if(start === null && end === null) {
-    switch(interval) {
+      switch(interval) {
       case '1D':
         let prevDate = null;
         for(const date in rawData) {
@@ -53,22 +52,35 @@ export const fetchStockData = async (symbol: string, interval: string, start: Da
         
         break;
       case '3M':
-        let threePrevMonth = null;
-        let threeCount = 0;
-        for(const date in rawData) {
-          // const currentDate = date.split('-')[1];
-          // if(threePrevMonth != currentDate && threePrevMonth !== null) {
-          //   threeCount++;
-          //   if(threeCount === 3) {
-          //     break;
-          //   }
-          // }
-          // threePrevMonth = currentDate;
-          newData[date] = rawData[date];
-        }
-        
+        // let threePrevMonth = null;
+        // let threeCount = 0;
+        // for(const date in rawData) {
+        //   const currentDate = date.split('-')[1];
+        //   if(threePrevMonth != currentDate && threePrevMonth !== null) {
+        //     threeCount++;
+        //     if(threeCount === 3) {
+        //       break;
+        //     }
+        //   }
+        //   threePrevMonth = currentDate;
+        //   newData[date] = rawData[date];
+        // }
+        newData = rawData;
         break;
       case '6M':
+        // let sixPrevMonth = null;
+        // let sixCount = 0;
+        // for(const date in rawData) {
+        //   const currentDate = date.split('-')[1];
+        //   if(sixPrevMonth != currentDate && sixPrevMonth !== null) {
+        //     sixCount++;
+        //     if(sixCount === 6) {
+        //       break;
+        //     }
+        //   }
+        //   sixPrevMonth = currentDate;
+        //   newData[date] = rawData[date];
+        // }
         newData = rawData;
         break;
       case '1Y':
