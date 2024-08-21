@@ -10,14 +10,14 @@ export const verticalDefaultOption = {
     alignment: TextAlignment.Left,
     font: {
       color: '#000000',
-      size: 15,
+      size: 17,
       bold: false,
       italic: false,
       family: 'Arial',
     },
     box: {
       alignment: {
-        vertical: BoxVerticalAlignment.Bottom,
+        vertical: BoxVerticalAlignment.Top,
         horizontal: BoxHorizontalAlignment.Center,
       },
       angle: 0,
@@ -28,7 +28,7 @@ export const verticalDefaultOption = {
       },
       padding: {
         x: 0,
-        y: 0,
+        y: 10,
       },
       maxHeight: 100,
       shadow: {

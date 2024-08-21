@@ -10,7 +10,7 @@ export const labelDefaultOption = {
     alignment: TextAlignment.Left,
     font: {
       color: 'black',
-      size: 14,
+      size: 16,
       bold: false,
       italic: false,
       family: 'Arial',

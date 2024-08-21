@@ -10,7 +10,7 @@ import {
         alignment: TextAlignment.Left,
         font: {
           color: 'rgba(255,255,255,1)',
-          size: 14,
+          size: 16,
           bold: false,
           italic: false,
           family: 'Arial',

@@ -108,7 +108,6 @@ const Chart: FC = () => {
   const [isVerticalCalendar,setIsVerticalCalendar] = useState(false);
   const [verticalDate, setVerticalDate] = useState(null)
   const [horizontalValue, setHorizontalValue] = useState(null); 
-  const [utcTimestamp, setUtcTimestamp] = useState("1718928000");
   const [thickness, setThickness] = useState(2);
   const [isTextcolor, setIsTextcolor] = useState(false);
   const [isLinecolor, setIsLinecolor] = useState(false);
@@ -132,6 +131,9 @@ const Chart: FC = () => {
   const [isStockBtn, setIsStockBtn] = useState<Boolean>(false);
   const [isSelected, setIsSelected] = useState<Boolean>(false);
   const [stockList, setStockList] = useState<any>(['AAPL']);
+  const [isSelectDate, setIsSelectDate] = useState<Boolean>(false);
+  const [firstTimestamp, setFirstTimestamp] = useState<number>(null);
+  const [lastTimestamp, setLastTimestamp] = useState<number>(null);
   const [hoverData, setHoverData] = useState<HoverInfo>({
     index: 0,
     open: 0,
@@ -280,7 +282,6 @@ const Chart: FC = () => {
       setVolume(Volume)
       setTimeIndexArray(timeIndex)
     }
-
     fetchWrapper().catch(e => {
       console.log(e)
     })
@@ -299,7 +300,8 @@ const Chart: FC = () => {
         setTimeIndexArray(timeIndex)
         setVolume(Volume)
         setLoading(true)
-
+        setFirstTimestamp(timeIndex[timeIndex.length - 1]);
+        setLastTimestamp(timeIndex[0]);
       } catch (err) {
         console.log('---Not found data---')
       } finally {
@@ -483,14 +485,15 @@ const Chart: FC = () => {
   }
 
   const verticalValueHandler = (date) => {
-    setVerticalDate(date);
+    const dateTimestamp = Math.floor(new Date(date).getTime() / 1000);
+
+    if (dateTimestamp >= lastTimestamp || dateTimestamp < (firstTimestamp - 86400)) {
+      alert('Error: Please select a date within the chart range');
+      return;
+    }
+
     setIsVerticalCalendar(false);
-    const vdate = new Date(verticalDate);
-    const utcDateString = vdate.toISOString();
-    const utcdate = new Date(utcDateString);
-    const value = utcdate.getTime()/1000;
-    setUtcTimestamp(String(value));
-    setVerticalPoint({price: 200, timestamp: Number(utcTimestamp)})
+    setVerticalPoint({price: 200, timestamp: Number(dateTimestamp)})
   }
 
   const thicknessListhandler = (value) => {
@@ -875,21 +878,34 @@ const Chart: FC = () => {
                     <button onClick={() => {
                         if(interval == '1D') {
                           alert('error! not support this function')
+                          return;
                         }
+                        if(isSelectDate === true) {
+                          alert('error! you have already selected date');
+                          return;
+                        }
+
                         if(startDate !== null && endDate !== null) {
+                          const beginMoment = Math.floor(new Date(startDate).getTime() / 1000);
+                          const endMoment = Math.floor(new Date(endDate).getTime() / 1000);
+                          if(beginMoment < firstTimestamp && endMoment > lastTimestamp ) {
+                            alert('Error! Selected date exceeded time range')
+                            return;
+                          }
                           if(startDate >= endDate) {
-                            alert('error! start should be before that end date');
+                            alert('Error! The start date should be before the end date. Please clear the selected dates first.');
                             setIsVisibleSelectDate(false)
                             return;
                           }
                         }
                           setStart(startDate);
                           setEnd(endDate);
-                          setIsVisibleSelectDate(false)
+                          setIsVisibleSelectDate(false);
+                          setIsSelectDate(true);
                         }}
                         className='p-[5px] m-[5px] bg-gray-400 hover:bg-gray-200'
                     >
-                      submit
+                      Submit
                     </button>
                     <button
                       className='p-[5px] m-[5px] bg-gray-400 hover:bg-gray-200'
@@ -897,9 +913,10 @@ const Chart: FC = () => {
                         setStart(null);
                         setEnd(null);
                         setIsVisibleSelectDate(false)
+                        setIsSelectDate(false);
                       }}
                     >
-                      cancel
+                      Clear
                     </button>
                   </div>
                 </div>
@@ -1221,7 +1238,7 @@ const Chart: FC = () => {
                         <div className='p-2'>
                           color
                           <div className={`${selectedToolType === "Callout" ? 'hidden' : "block"} p-2 flex`}>
-                          text: <div className="w-[20px] h-[20px] rounded-md ml-[73px]"
+                          text: <div className="w-[20px] h-[20px] rounded-md ml-[73px] border-[1px] border-black"
                                     style={{backgroundColor: selectTextColor.hex}} 
                                     onClick={() => {setIsTextcolor(!isTextcolor); setIsLinecolor(false); setIsBackgroundcolor(false)}}/> 
                           </div>
@@ -1233,7 +1250,7 @@ const Chart: FC = () => {
                           <div className={`${selectedToolType !== 'Text' ? 'block' : 'hidden'}`}>
                             <div className='p-2 flex'>
                               line: <div 
-                                      className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px]'
+                                      className='bg-red-400 w-[20px] h-[20px] rounded-md ml-[73px] border-[1px] border-black'
                                       style={{backgroundColor: selectedLineColor.hex}}
                                       onClick={() => {setIsLinecolor(!isLinecolor); setIsTextcolor(false);  setIsBackgroundcolor(false)}}/>
                             </div>
@@ -1246,7 +1263,7 @@ const Chart: FC = () => {
                           <div className={`${(selectedToolType == 'Circle' || selectedToolType == 'PriceRange'|| selectedToolType == 'Callout') ? 'block' : 'hidden'}`}>
                             <div className={`${selectedToolType === "Callout" ? 'hidden' : "block"} p-2 flex`}>
                               background: <div 
-                                            className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[13px]'
+                                            className='bg-blue-400 w-[20px] h-[20px] rounded-md ml-[14px] border-[1px] border-black'
                                             style={{backgroundColor: selectBackgroundColor.hex}}
                                             onClick={() => {setIsBackgroundcolor(!isBackgroundcolor); setIsTextcolor(false); setIsLinecolor(false)}}/>
                             </div>
